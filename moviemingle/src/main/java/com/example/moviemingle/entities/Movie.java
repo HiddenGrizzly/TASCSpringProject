@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -26,7 +28,8 @@ public class Movie extends BaseEntity {
 
     private String rated;
 
-    private LocalDate released;
+    @Temporal(TemporalType.DATE)
+    private Date released;
 
     private String runtime;
 
