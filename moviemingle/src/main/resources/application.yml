@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: MovieMingle
+  datasource:
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/moviemingle
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    generate-ddl: true
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MySQL5InnoDBDialect
+        format_sql: true
+        ddl-auto: update
+
+server:
+  servlet:
+    contextPath: /api/v1
+
+security:
+  jwt:
+    token:
+      secret-key: ${JWT_SECRET_KEY}
+      issuer: ${JWT_ISSUER}
