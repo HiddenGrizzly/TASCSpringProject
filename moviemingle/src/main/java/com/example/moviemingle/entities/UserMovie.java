@@ -13,13 +13,8 @@ import java.time.LocalDateTime;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
-@Table(name = "user_movie")
-public class UserMovie {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "user_movie_id")
-    private Long userMovieId;
+@Table(name = "user_movies")
+public class UserMovie extends BaseEntity {
 
     @ManyToOne
     @JoinColumn(name = "user_id")
@@ -30,21 +25,5 @@ public class UserMovie {
     private Movie movie;
 
     private Boolean watchStatus;
-
-    @Column(name = "created_at", nullable = false, updatable = false)
-    private LocalDateTime createdAt;
-
-    @Column(name = "updated_at", nullable = false)
-    private LocalDateTime updatedAt;
-
-    @PrePersist
-    protected void onCreate() {
-        this.createdAt = LocalDateTime.now();
-        this.updatedAt = LocalDateTime.now();
-    }
-
-    @PreUpdate
-    protected void onUpdate() {
-        this.updatedAt = LocalDateTime.now();
-    }
+    
 }
