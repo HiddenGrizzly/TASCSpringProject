@@ -1,7 +1,9 @@
+import { Location } from '@angular/common';
 import { LoginReq } from './../../models/auth/LoginReq';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { NgToastService } from 'ng-angular-popup';
 import { AuthState } from 'src/app/models/auth/AuthState';
 import { AuthService } from 'src/app/services/auth/auth.service';
 
@@ -17,7 +19,8 @@ export class LoginComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private router: Router,
-    private fb: FormBuilder
+    private fb: FormBuilder,
+    private location: Location
   ) {
 
   }
@@ -34,10 +37,9 @@ export class LoginComponent implements OnInit {
       const LoginReq = this.loginForm.value;
       this.authService.login(LoginReq).subscribe({
         next: res => {
-          console.log(res);
           const authState: AuthState = res;
           this.authService.setAuthState(authState);
-          this.router.navigateByUrl('/admin');
+          this.location.back();
         },
         error: err => {
           console.log(err);

@@ -34,7 +34,7 @@ public class JwtUtil {
         return JWT.create()
                 .withIssuer(issuer)
                 .withClaim("username", user.getUsername())
-                .withClaim("roles", user.getRoles().stream().map(Role::getRoleName).toString())
+                .withClaim("roles", user.getRoles().stream().map(Role::getRoleName).map(Enum::name).collect(Collectors.toList()))
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*10))
                 .sign(algorithm);
@@ -44,7 +44,7 @@ public class JwtUtil {
         return JWT.create()
                 .withIssuer(issuer)
                 .withClaim("username", user.getUsername())
-                .withClaim("roles", user.getRoles().stream().map(Role::getRoleName).toString())
+                .withClaim("roles", user.getRoles().stream().map(Role::getRoleName).map(Enum::name).collect(Collectors.toList()))
                 .withIssuedAt(new Date(System.currentTimeMillis()))
                 .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*60*24))
                 .sign(algorithm);

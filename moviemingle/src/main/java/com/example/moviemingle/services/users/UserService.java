@@ -21,7 +21,9 @@ public interface UserService {
     
     void changePassword(User user, ChangePasswordReq dto);
     
-    TokenRes refreshToken(HttpServletRequest req, HttpServletResponse res);
+    TokenRes refreshToken(RefreshTokenReq req);
     
     Page<User> getAll(Pageable pageable);
+    
+    User updateUser(User user, UserUpdateReq req);
 }

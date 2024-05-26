@@ -3,6 +3,8 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 import { RegisterReq } from 'src/app/models/auth/RegisterReq';
 import { AuthService } from 'src/app/services/auth/auth.service';
+import { matchPassword } from 'src/app/utils/ValidationUtils';
+
 
 @Component({
   selector: 'app-register',
@@ -31,25 +33,12 @@ export class RegisterComponent implements OnInit {
       reTypePassword: ['', [Validators.required]]
     },
       {
-        validator: this.matchPassword('password', 'reTypePassword')
+        validator: matchPassword('password', 'reTypePassword')
       }
     );
   }
 
-  matchPassword(inputField: string, matchingInputField: string) {
-    return (formGroup: FormGroup) => {
-      let input = formGroup.controls[inputField];
-      let matchingInput = formGroup.controls[matchingInputField];
-      if (matchingInput.errors && !matchingInput.errors['matchPassword']) {
-        return;
-      }
-      if (input.value !== matchingInput.value) {
-        return matchingInput.setErrors({ unmatch: true });
-      } else {
-        return matchingInput.setErrors(null);
-      }
-    }
-  }
+
 
   onSubmit() {
     if (this.registerForm.valid) {

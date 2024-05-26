@@ -18,6 +18,8 @@ public class TokenRes {
     
     private String username;
     
+    private String avatar;
+    
     private Set<String> roles = new HashSet<>();
     
     private String accessToken;

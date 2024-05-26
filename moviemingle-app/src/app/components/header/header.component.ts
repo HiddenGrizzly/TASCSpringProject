@@ -1,5 +1,6 @@
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { Component, OnInit } from '@angular/core';
+import { AuthState } from 'src/app/models/auth/AuthState';
 
 @Component({
   selector: 'app-header',
@@ -8,16 +9,20 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HeaderComponent implements OnInit {
 
-  constructor(private AuthService: AuthService) {
+  authState!: AuthState;
+
+  constructor(private authService: AuthService) {
 
   }
 
   ngOnInit(): void {
-    throw new Error('Method not implemented.');
+    this.authService.observeAuthState().subscribe(res => {
+      res && (this.authState = res);
+    })
   }
 
   onLogout(): void {
-    this.AuthService.logout();
+    this.authService.logout();
   }
 
 }

@@ -20,9 +20,11 @@
                     <td>{{user.lastName}}</td>
                     <td>{{user.email}}</td>
                     <td>
+                        <button class="btn mr-5" routerLink="/admin/user/{{user.id}}">Detail</button>
                     </td>
                 </tr>
             </tbody>
         </table>
+        <app-pagination *ngIf="pageRes" [pageRes]="pageRes" [route]="route"></app-pagination>
     </div>
 </div>

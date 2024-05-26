@@ -17,6 +17,8 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -56,6 +58,7 @@ public class UserServiceImpl implements UserService{
         return TokenRes.builder()
                 .userId(currentUser.getId())
                 .username(currentUser.getUsername())
+                .avatar(currentUser.getAvatar())
                 .roles(currentUser.getRoles().stream().map(r -> r.getRoleName().name()).collect(Collectors.toSet()))
                 .accessToken(jwtUtil.createAccessToken(currentUser))
                 .refreshToken(jwtUtil.createRefreshToken(currentUser))
@@ -82,30 +85,29 @@ public class UserServiceImpl implements UserService{
     }
     
     @Override
-    public TokenRes refreshToken(HttpServletRequest req, HttpServletResponse res) {
-        String authHeader = req.getHeader("Authorization");
-        
-        if (authHeader != null) {
-            String[] headerElements = authHeader.split(" ");
-            if (headerElements.length == 2 && "Bearer".equals(headerElements[0])) {
-                String refreshToken = headerElements[1];
-                String username = jwtUtil.extractUsername(refreshToken);
-                User currentUser = getByUsername(username);
-                return TokenRes.builder()
-                        .userId(currentUser.getId())
-                        .username(currentUser.getUsername())
-                        .roles(currentUser.getRoles().stream().map(r -> r.getRoleName().name()).collect(Collectors.toSet()))
-                        .accessToken(jwtUtil.createAccessToken(currentUser))
-                        .refreshToken(refreshToken)
-                        .build();
+    public TokenRes refreshToken(RefreshTokenReq req) {
+        String username = jwtUtil.extractUsername(req.getRefreshToken());
+        User currentUser = getByUsername(username);
+        return TokenRes.builder()
+                .userId(currentUser.getId())
+                .username(currentUser.getUsername())
+                .avatar(currentUser.getAvatar())
+                .roles(currentUser.getRoles().stream().map(r -> r.getRoleName().name()).collect(Collectors.toSet()))
+                .accessToken(jwtUtil.createAccessToken(currentUser))
+                .refreshToken(req.getRefreshToken())
+                .build();
                 
-            }
-        }
-        throw new UnauthorizedRequestException();
     }
     
     @Override
     public Page<User> getAll(Pageable pageable) {
         return userRepo.findAll(pageable);
     }
+    
+    @Override
+    public User updateUser(User user, UserUpdateReq req) {
+        User updatedUser = Mappers.getMapper(UserMapper.class).updateUser(req, user);
+        return userRepo.save(updatedUser);
+    }
+    
 }

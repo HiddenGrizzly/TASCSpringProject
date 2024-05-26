@@ -1,7 +1,8 @@
-import { ActivatedRoute } from '@angular/router';
+import { PageReq } from './../../models/pages/PageReq';
+import { ActivatedRoute, Router } from '@angular/router';
 import { UserService } from './../../services/user/user.service';
-import { Component, OnInit } from '@angular/core';
-import { PageReq } from 'src/app/models/pages/PageReq';
+import { Component, Input, OnInit } from '@angular/core';
+import { UserRes } from 'src/app/models/users/UserRes';
 
 @Component({
   selector: 'app-user-admin',
@@ -10,15 +11,17 @@ import { PageReq } from 'src/app/models/pages/PageReq';
 })
 export class UserAdminComponent implements OnInit {
 
-  users: any[] = [];
-  pageReq: PageReq = {
-    page: 1,
-    size: 10
-  };
+  users: UserRes[] = [];
+
+  pageReq: PageReq | null = null;
+
+  pageRes: any;
+
+  route: string = '/admin/user';
 
   constructor(
     private userService: UserService,
-    private ActivatedRoute: ActivatedRoute
+    private ActivatedRoute: ActivatedRoute,
   ) {
 
   }
@@ -30,11 +33,11 @@ export class UserAdminComponent implements OnInit {
           page: Number(params['page']),
           size: Number(params['size'])
         }
-        this.userService.getAll(this.pageReq).subscribe(res => {
-          console.log(res);
-          this.users = res.content;
-        });
       }
+      this.userService.getAll(this.pageReq).subscribe(res => {
+        this.pageRes = res;
+        this.users = res.content;
+      });
     })
   }
 

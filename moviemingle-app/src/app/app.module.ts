@@ -18,6 +18,15 @@ import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
 import { UserAdminComponent } from './pages/user-admin/user-admin.component';
+import { UserDetailComponent } from './pages/user-detail/user-detail.component';
+import { PaginationComponent } from './components/pagination/pagination.component';
+import { GoBackBtnComponent } from './components/go-back-btn/go-back-btn.component';
+import { ProfileComponent } from './pages/profile/profile.component';
+import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
+import { NgToastModule } from 'ng-angular-popup';
+import { UserDropdownComponent } from './components/user-dropdown/user-dropdown.component';
+import { ModalComponent } from './components/modal/modal.component';
+import { ChangePasswordFormComponent } from './components/change-password-form/change-password-form.component';
 
 @NgModule({
   declarations: [
@@ -31,12 +40,21 @@ import { UserAdminComponent } from './pages/user-admin/user-admin.component';
     HeaderComponent,
     NavbarComponent,
     FooterComponent,
-    UserAdminComponent
+    UserAdminComponent,
+    UserDetailComponent,
+    PaginationComponent,
+    GoBackBtnComponent,
+    ProfileComponent,
+    UserLayoutComponent,
+    UserDropdownComponent,
+    ModalComponent,
+    ChangePasswordFormComponent
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    NgToastModule,
     ReactiveFormsModule,
     JwtModule.forRoot({
       config: {

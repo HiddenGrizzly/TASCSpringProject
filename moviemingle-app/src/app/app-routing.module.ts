@@ -7,6 +7,9 @@ import { HomeComponent } from './pages/home/home.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { authGuard } from './guards/auth.guard';
 import { UserAdminComponent } from './pages/user-admin/user-admin.component';
+import { UserDetailComponent } from './pages/user-detail/user-detail.component';
+import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
+import { ProfileComponent } from './pages/profile/profile.component';
 
 const routes: Routes = [
   {
@@ -16,6 +19,18 @@ const routes: Routes = [
       {
         path: 'home',
         component: HomeComponent
+      },
+      {
+        path: 'user',
+        component: UserLayoutComponent,
+        canActivate: [authGuard],
+        data: { roles: ['ADMIN', 'USER'] },
+        children: [
+          {
+            path: 'profile',
+            component: ProfileComponent
+          }
+        ]
       }
     ]
   },
@@ -27,7 +42,11 @@ const routes: Routes = [
     children: [
       {
         path: 'user',
-        component: UserAdminComponent
+        component: UserAdminComponent,
+      },
+      {
+        path: 'user/:id',
+        component: UserDetailComponent
       }
     ]
   },

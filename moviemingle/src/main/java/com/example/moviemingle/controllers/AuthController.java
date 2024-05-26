@@ -8,7 +8,10 @@ import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.HashMap;
 
 @RestController
 @RequestMapping("auth")
@@ -30,8 +33,8 @@ public class AuthController {
     
     
     @PostMapping("tokens")
-    public TokenRes refreshToken(HttpServletRequest req, HttpServletResponse res){
-        return userService.refreshToken(req, res);
+    public TokenRes refreshToken(@RequestBody RefreshTokenReq req){
+        return userService.refreshToken(req);
     }
     
     @GetMapping("test")

@@ -12,7 +12,7 @@ export class UserService {
 
   constructor(private http: HttpClient) { }
 
-  getAll(page: PageReq): Observable<any> {
+  getAll(page: PageReq | null): Observable<any> {
     return this.http.get(this.baseUrl, {
       params: { ...page }
     })
