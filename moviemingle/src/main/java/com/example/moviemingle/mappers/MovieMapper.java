@@ -1,11 +1,11 @@
 package com.example.moviemingle.mappers;
 
-import com.example.moviemingle.dtos.movies.MovieInOutDTO;
+import com.example.moviemingle.dtos.movies.MovieInDTO;
+import com.example.moviemingle.dtos.movies.MovieOutDTO;
 import com.example.moviemingle.entities.*;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
 
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -13,19 +13,17 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface MovieMapper {
 
-    MovieMapper INSTANCE = Mappers.getMapper(MovieMapper.class);
-
     @Mapping(source = "writers", target = "writers", qualifiedByName = "stringToWriters")
     @Mapping(source = "actors", target = "actors", qualifiedByName = "stringToActors")
     @Mapping(source = "directors", target = "directors", qualifiedByName = "stringToDirectors")
     @Mapping(source = "genres", target = "genres", qualifiedByName = "stringToGenres")
-    Movie toEntity(MovieInOutDTO dto);
+    Movie toEntity(MovieInDTO dto);
 
     @Mapping(source = "writers", target = "writers", qualifiedByName = "writersToString")
     @Mapping(source = "actors", target = "actors", qualifiedByName = "actorsToString")
     @Mapping(source = "directors", target = "directors", qualifiedByName = "directorsToString")
     @Mapping(source = "genres", target = "genres", qualifiedByName = "genresToString")
-    MovieInOutDTO toDto(Movie entity);
+    MovieOutDTO toOutDto(Movie entity);
 
     @Named("stringToWriters")
     default Set<Writer> stringToWriters(Set<String> names) {

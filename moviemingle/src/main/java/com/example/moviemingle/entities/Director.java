@@ -23,4 +23,7 @@ public class Director extends BaseEntity {
     @ManyToMany(mappedBy = "directors")
     private Set<Movie> movies = new HashSet<>();
 
+    public Director(String directorName) {
+        this.directorName = directorName;
+    }
 }

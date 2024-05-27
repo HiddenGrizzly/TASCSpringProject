@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface WriterRepository extends JpaRepository<Writer, Long>, JpaSpecificationExecutor<Writer> {
+
+    public Writer findByWriterName(String name);
+
 }

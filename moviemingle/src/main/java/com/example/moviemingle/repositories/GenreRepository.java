@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface GenreRepository extends JpaRepository<Genre, Long>, JpaSpecificationExecutor<Genre> {
+
+    public Genre findByGenreName(String name);
+
 }

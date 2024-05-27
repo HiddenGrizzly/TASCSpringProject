@@ -22,5 +22,9 @@ public class Actor extends BaseEntity{
 
     @ManyToMany(mappedBy = "actors")
     private Set<Movie> movies = new HashSet<>();
+
+    public Actor(String actorName) {
+        this.actorName = actorName;
+    }
     
 }

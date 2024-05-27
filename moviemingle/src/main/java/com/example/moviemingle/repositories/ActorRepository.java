@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ActorRepository extends JpaRepository<Actor, Long>, JpaSpecificationExecutor<Actor> {
+
+    public Actor findByActorName(String name);
+
 }

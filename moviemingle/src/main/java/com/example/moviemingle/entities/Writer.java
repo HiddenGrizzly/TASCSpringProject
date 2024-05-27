@@ -22,5 +22,9 @@ public class Writer extends BaseEntity {
 
     @ManyToMany(mappedBy = "writers")
     private Set<Movie> movies = new HashSet<>();
-    
+
+    public Writer(String writerName) {
+        this.writerName = writerName;
+    }
+
 }

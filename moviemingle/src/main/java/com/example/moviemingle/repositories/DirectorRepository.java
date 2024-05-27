@@ -7,4 +7,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface DirectorRepository extends JpaRepository<Director, Long>, JpaSpecificationExecutor<Director> {
+
+    public Director findByDirectorName(String name);
+
 }
