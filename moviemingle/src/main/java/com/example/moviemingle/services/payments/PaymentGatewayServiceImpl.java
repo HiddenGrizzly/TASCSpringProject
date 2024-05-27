@@ -18,7 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Service
-public class PaymentServiceImpl implements PaymentService{
+public class PaymentGatewayServiceImpl implements PaymentGatewayService {
     
     @Value("${server.base-url}")
     private String serverUrl;

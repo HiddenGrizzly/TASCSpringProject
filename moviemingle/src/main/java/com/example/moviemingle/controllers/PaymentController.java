@@ -4,7 +4,7 @@ import com.example.moviemingle.entities.Movie;
 import com.example.moviemingle.entities.Order;
 import com.example.moviemingle.entities.OrderDetail;
 import com.example.moviemingle.entities.User;
-import com.example.moviemingle.services.payments.PaymentService;
+import com.example.moviemingle.services.payments.PaymentGatewayService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,7 +22,7 @@ import java.util.Set;
 public class PaymentController {
     
     @Autowired
-    private PaymentService paymentService;
+    private PaymentGatewayService paymentService;
     
     @Value("${frontend.base-url}")
     private String frontendUrl;
