@@ -10,14 +10,14 @@ import lombok.Setter;
 import org.springframework.format.annotation.DateTimeFormat;
 
 import java.time.LocalDate;
-import java.util.Date;
 import java.util.Set;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieInOutDTO {
+public class MovieOutDTO {
+    private Long id;
     @NotBlank
     @Size(max = 255)
     private String movieTitle;
