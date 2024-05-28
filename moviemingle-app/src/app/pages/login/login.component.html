@@ -1,0 +1,48 @@
+<section class="flex flex-col h-screen justify-center items-center">
+    <div class="m-auto w-1/4">
+        <div class="rounded-lg border border-stroke bg-white shadow-default dark:border-strokedark dark:bg-boxdark">
+            <div class="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+                <h3 class="font-medium text-2xl text-black dark:text-white text-center">
+                    Login
+                </h3>
+            </div>
+            <form autocomplete="off" novalidate [formGroup]="loginForm" (submit)="onSubmit()">
+                <div class="p-6.5">
+                    <div class="mb-4.5">
+                        <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                            Username
+                        </label>
+                        <input type="text" placeholder="Enter your username" formControlName="username"
+                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                        <div *ngIf="loginForm.get('username')?.invalid && (loginForm.get('username')?.dirty || loginForm.get('username')?.touched)"
+                            class="text-red-700">
+                            username can not be empty
+                        </div>
+                    </div>
+
+                    <div>
+                        <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                            Password
+                        </label>
+                        <input type="password" placeholder="Enter password" formControlName="password"
+                            class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                        <div *ngIf="loginForm.get('password')?.invalid && (loginForm.get('password')?.dirty || loginForm.get('password')?.touched)"
+                            class="text-red-700">
+                            password can not be empty
+                        </div>
+                    </div>
+
+                    <div class="mb-5.5 mt-5 flex items-center justify-between">
+                        <a href="#" class="text-sm text-primary hover:underline">Forget password?</a>
+                    </div>
+
+                    <button
+                        class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+                        type="submit" [disabled]="loginForm.invalid">
+                        Sign In
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</section>
