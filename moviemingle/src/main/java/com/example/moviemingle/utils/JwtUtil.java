@@ -36,7 +36,7 @@ public class JwtUtil {
                 .withClaim("username", user.getUsername())
                 .withClaim("roles", user.getRoles().stream().map(Role::getRoleName).map(Enum::name).collect(Collectors.toList()))
                 .withIssuedAt(new Date(System.currentTimeMillis()))
-                .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*10))
+                .withExpiresAt(new Date(System.currentTimeMillis()+1000*60*60))
                 .sign(algorithm);
     }
     
