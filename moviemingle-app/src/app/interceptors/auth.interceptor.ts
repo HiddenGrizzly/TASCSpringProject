@@ -4,7 +4,8 @@ import {
   HttpHandler,
   HttpEvent,
   HttpInterceptor,
-  HttpErrorResponse
+  HttpErrorResponse,
+  HttpHeaders
 } from '@angular/common/http';
 import { Observable, catchError, switchMap, throwError } from 'rxjs';
 import { AuthService } from '../services/auth/auth.service';
@@ -20,9 +21,7 @@ export class AuthInterceptor implements HttpInterceptor {
     const authState = this.authService.getAuthState();
     if (!authState || !authState.accessToken || !authState.refreshToken || request.url.endsWith('/auth/tokens')) {
       const cloned = request.clone({
-        setHeaders: {
-          Authorization: ''
-        }
+        headers: new HttpHeaders().set('Authorization', '')
       })
       return next.handle(cloned);
     }
@@ -31,10 +30,9 @@ export class AuthInterceptor implements HttpInterceptor {
     const refreshToken = authState.refreshToken;
 
     const requestWithCurrentToken = request.clone({
-      setHeaders: {
-        Authorization: `Bearer ${accessToken}`
-      }
-    });
+      headers: new HttpHeaders().set('Authorization', 'Bearer ' + accessToken)
+    }
+    );
     return next.handle(requestWithCurrentToken).pipe(
       catchError(
         err => {
@@ -42,11 +40,11 @@ export class AuthInterceptor implements HttpInterceptor {
             return this.authService.refreshAccessToken(refreshToken).pipe(
               switchMap(res => {
                 this.authService.setAuthState(res);
+
                 const requestWithNewToken = request.clone({
-                  setHeaders: {
-                    Authorization: `Bearer ${res.accessToken}`
-                  }
-                })
+                  headers: new HttpHeaders().set('Authorization', 'Bearer ' + res.accessToken)
+                }
+                );
                 return next.handle(requestWithNewToken);
               }),
               catchError(err => {

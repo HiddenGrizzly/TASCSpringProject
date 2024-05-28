@@ -37,7 +37,7 @@ public class ApiExceptionHandler {
     @ExceptionHandler(Exception.class)
     public ResponseEntity<?> handleSecurityException(Exception e){
         if(e instanceof AccessDeniedException) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Unauthorized request");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body("Unauthorized request");
         }else if(e instanceof SignatureVerificationException){
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body("Invalid token");
         }else if(e instanceof TokenExpiredException){
