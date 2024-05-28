@@ -1,6 +1,7 @@
 package com.example.moviemingle.controllers;
 
 import com.example.moviemingle.dto.OrderDTO;
+import com.example.moviemingle.dto.OrderDetailDTO;
 import com.example.moviemingle.entities.Order;
 import com.example.moviemingle.entities.OrderDetail;
 import com.example.moviemingle.mappers.OrderMapper;
@@ -16,12 +17,14 @@ import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")
+@CrossOrigin(origins = "http://localhost:4200")
 public class OrderController {
     @Autowired
     private OrderService orderService;
-    @GetMapping("")
-    public List<OrderDTO> getAllOrders() {
-        return orderService.getAllOrder();
+    @GetMapping
+    public List<OrderDTO> getAllOrders(@RequestParam(defaultValue = "0") int page,
+                                       @RequestParam(defaultValue = "10") int size) {
+        return orderService.getAllOrder(page, size);
     }
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id) {
@@ -32,15 +35,23 @@ public class OrderController {
             return ResponseEntity.notFound().build();
         }
     }
-    @PostMapping("/add")
-    public void addOrder(@RequestBody OrderDTO orderDto) {
-        orderService.addOrder(orderDto);
+    @GetMapping("/{username}")
+    public List<OrderDTO> getOrderByUsername(@PathVariable String username) {
+        return orderService.getOrderByUsername(username);
     }
-    @PutMapping("/update/{id}")
+    @PostMapping
+    public void createOrder(@RequestBody OrderDTO orderDto) {
+        orderService.createOrder(orderDto);
+    }
+//    @PostMapping("/detail/{orderId}")
+//    public OrderDTO addOrderDetail(@PathVariable Long orderId, @RequestBody OrderDetailDTO orderDetailDTO) {
+//        return orderService.addOrderDetail(orderId, orderDetailDTO);
+//    }
+    @PutMapping("/{id}")
     public void updateOrder(@PathVariable Long id, @RequestBody OrderDTO orderDto) {
         orderService.updateOrder(id, orderDto);
     }
-    @DeleteMapping("/delete/{id}")
+    @DeleteMapping("/{id}")
     public void deleteOrder(@PathVariable Long id) {
         orderService.deleteOrder(id);
     }

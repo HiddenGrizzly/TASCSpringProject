@@ -26,5 +26,15 @@ public class Order extends BaseEntity{
     private Set<OrderDetail> orderDetails;
 
     private String orderStatus;
-    
+
+    private Double totalPrice;
+    public void setTotalPrice() {
+        if (orderDetails != null && !orderDetails.isEmpty()) {
+            this.totalPrice = orderDetails.stream().filter(orderDetail -> orderDetail.getOrder().getId().equals(this.getId()))
+                    .mapToDouble(OrderDetail::getPurchasePrice)
+                    .sum();
+        } else {
+            this.totalPrice = 0.0;
+        }
+    }
 }
