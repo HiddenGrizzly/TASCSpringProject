@@ -1,0 +1,12 @@
+<div class="flex items-center justify-between mt-10">
+    <select class="select mx-2 focus:outline-none border-slate-200" (change)="setSize($any($event.target).value)">
+        <option [value]="option" *ngFor="let option of sizeOptions" [selected]="option == pageReq.size">
+            {{option}}
+        </option>
+    </select>
+
+    <div class="join mx-2">
+        <input class="join-item btn btn-square" *ngFor="let nr of pageNrs" type="radio" name="options"
+            attr.aria-label={{nr+1}} [checked]="nr === pageRes.currentPage" (click)="toPage(nr)" />
+    </div>
+</div>

@@ -15,9 +15,10 @@ import java.util.Set;
 @Table(name = "roles")
 public class Role extends BaseEntity {
 
+    @Enumerated(EnumType.STRING)
     private RoleType roleName;
 
-    @ManyToMany(mappedBy = "roles")
+    @ManyToMany(fetch = FetchType.EAGER, mappedBy = "roles")
     private Set<User> users = new HashSet<>();
     
 }
