@@ -1,11 +1,10 @@
 package com.example.moviemingle.services.orderdetail;
 
-import com.example.moviemingle.dto.OrderDetailDTO;
+import com.example.moviemingle.dtos.order.OrderDetailDTO;
 import com.example.moviemingle.entities.OrderDetail;
 import com.example.moviemingle.exceptions.OrderNotFoundException;
 import com.example.moviemingle.mappers.OrderDetailMapper;
 import com.example.moviemingle.repositories.OrderDetailRepository;
-import com.example.moviemingle.services.orderdetail.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;

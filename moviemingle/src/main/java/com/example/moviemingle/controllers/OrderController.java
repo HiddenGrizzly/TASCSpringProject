@@ -1,19 +1,12 @@
 package com.example.moviemingle.controllers;
 
-import com.example.moviemingle.dto.OrderDTO;
-import com.example.moviemingle.dto.OrderDetailDTO;
-import com.example.moviemingle.entities.Order;
-import com.example.moviemingle.entities.OrderDetail;
-import com.example.moviemingle.mappers.OrderMapper;
+import com.example.moviemingle.dtos.order.OrderDTO;
 import com.example.moviemingle.services.orders.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
-import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/orders")

@@ -1,6 +1,6 @@
 package com.example.moviemingle.controllers;
 
-import com.example.moviemingle.dto.OrderDetailDTO;
+import com.example.moviemingle.dtos.order.OrderDetailDTO;
 import com.example.moviemingle.services.orderdetail.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;

@@ -1,6 +1,6 @@
 package com.example.moviemingle.services.orderdetail;
 
-import com.example.moviemingle.dto.OrderDetailDTO;
+import com.example.moviemingle.dtos.order.OrderDetailDTO;
 
 import java.util.List;
 

@@ -1,6 +1,6 @@
 package com.example.moviemingle.mappers;
 
-import com.example.moviemingle.dto.OrderDTO;
+import com.example.moviemingle.dtos.order.OrderDTO;
 import com.example.moviemingle.entities.Order;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;

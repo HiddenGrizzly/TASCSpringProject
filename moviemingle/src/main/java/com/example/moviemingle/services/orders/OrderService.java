@@ -1,12 +1,8 @@
 package com.example.moviemingle.services.orders;
 
-import com.example.moviemingle.dto.OrderDTO;
-import com.example.moviemingle.dto.OrderDetailDTO;
-import com.example.moviemingle.entities.Order;
-import com.example.moviemingle.entities.OrderDetail;
+import com.example.moviemingle.dtos.order.OrderDTO;
 
 import java.util.List;
-import java.util.Set;
 
 public interface OrderService {
     List<OrderDTO> getAllOrder(int page, int size);

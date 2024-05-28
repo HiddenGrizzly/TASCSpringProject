@@ -1,24 +1,18 @@
 package com.example.moviemingle.services.orders;
 
-import com.example.moviemingle.dto.OrderDTO;
-import com.example.moviemingle.dto.OrderDetailDTO;
+import com.example.moviemingle.dtos.order.OrderDTO;
 import com.example.moviemingle.entities.Order;
-import com.example.moviemingle.entities.OrderDetail;
 import com.example.moviemingle.exceptions.OrderNotFoundException;
 import com.example.moviemingle.mappers.OrderDetailMapper;
 import com.example.moviemingle.mappers.OrderMapper;
 import com.example.moviemingle.repositories.OrderDetailRepository;
 import com.example.moviemingle.repositories.OrderRepository;
-//import com.example.moviemingle.services.orderdetails.OrderDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
-import java.time.LocalDateTime;
-import java.util.HashSet;
 import java.util.List;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service

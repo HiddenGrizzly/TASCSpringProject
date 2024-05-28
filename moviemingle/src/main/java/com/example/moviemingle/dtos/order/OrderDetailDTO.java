@@ -1,4 +1,4 @@
-package com.example.moviemingle.dto;
+package com.example.moviemingle.dtos.order;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
