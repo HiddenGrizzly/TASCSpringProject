@@ -45,4 +45,16 @@ export class SelfService {
     );
   }
 
+  changeAvatar(avatar: FormData): Observable<any> {
+    return this.http.patch(`${this.url}/avatars`, avatar).pipe(
+      tap(res => {
+        this.toast.success({ detail: 'Success', summary: 'Avatar changed' })
+      }),
+      catchError(error => {
+        this.toast.error({ detail: 'Error', summary: 'Unable to change avatar, please try again!' });
+        throw error;
+      })
+    )
+  }
+
 }
