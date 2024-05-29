@@ -7,6 +7,6 @@
 
     <div class="join mx-2">
         <input class="join-item btn btn-square" *ngFor="let nr of pageNrs" type="radio" name="options"
-            attr.aria-label={{nr+1}} [checked]="nr === pageRes.currentPage" (click)="toPage(nr)" />
+            attr.aria-label={{nr+1}} [checked]="nr === pageInfo.currentPage" (click)="toPage(nr)" />
     </div>
 </div>

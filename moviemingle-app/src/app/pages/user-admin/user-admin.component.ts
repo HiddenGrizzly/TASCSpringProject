@@ -1,8 +1,9 @@
 import { PageReq } from './../../models/pages/PageReq';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ActivatedRoute } from '@angular/router';
 import { UserService } from './../../services/user/user.service';
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { UserRes } from 'src/app/models/users/UserRes';
+import { PageInfo } from 'src/app/models/pages/PageInfo';
 
 @Component({
   selector: 'app-user-admin',
@@ -15,9 +16,7 @@ export class UserAdminComponent implements OnInit {
 
   pageReq: PageReq | null = null;
 
-  pageRes: any;
-
-  route: string = '/admin/user';
+  pageInfo!: PageInfo;
 
   constructor(
     private userService: UserService,
@@ -35,8 +34,9 @@ export class UserAdminComponent implements OnInit {
         }
       }
       this.userService.getAll(this.pageReq).subscribe(res => {
-        this.pageRes = res;
+        this.pageInfo = new PageInfo(res);
         this.users = res.content;
+        console.log(res);
       });
     })
   }
