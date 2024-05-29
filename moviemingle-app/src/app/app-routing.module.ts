@@ -10,6 +10,7 @@ import { UserAdminComponent } from './pages/user-admin/user-admin.component';
 import { UserDetailComponent } from './pages/user-detail/user-detail.component';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { PaymentResultComponent } from './pages/payment-result/payment-result.component';
 
 const routes: Routes = [
   {
@@ -31,6 +32,10 @@ const routes: Routes = [
             component: ProfileComponent
           }
         ]
+      },
+      {
+        path: 'payment',
+        component: PaymentResultComponent
       }
     ]
   },

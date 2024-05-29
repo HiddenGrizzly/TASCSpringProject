@@ -58,7 +58,6 @@ export class ProfileComponent implements OnInit {
     }
   }
 
-
   openChangePasswordForm() {
     this.modalService.open();
   }

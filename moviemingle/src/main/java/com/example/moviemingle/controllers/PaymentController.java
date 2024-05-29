@@ -22,53 +22,19 @@ import java.util.Set;
 public class PaymentController {
     
     @Autowired
-    private PaymentGatewayService paymentService;
+    private PaymentGatewayService paymentGatewayService;
     
     @Value("${frontend.base-url}")
     private String frontendUrl;
     
-    // only for testing purpose
-    @PostMapping
-    public String testPayment() throws StripeException {
-        User user = new User();
-        user.setEmail("email@mail.com");
-        
-        Movie movie1 = new Movie();
-        Movie movie2 = new Movie();
-        movie1.setPrice(12.00);
-        movie1.setMovieTitle("Avenger");
-        movie2.setPrice(16.00);
-        movie2.setMovieTitle("Titanic");
-        
-        Set<OrderDetail> orderDetails = new HashSet<>();
-        OrderDetail od1 = new OrderDetail();
-        od1.setMovie(movie1);
-        od1.setPurchasePrice(12.00);
-        
-        OrderDetail od2 = new OrderDetail();
-        od2.setMovie(movie2);
-        od2.setPurchasePrice(16.00);
-        
-        orderDetails.add(od1);
-        orderDetails.add(od2);
-        
-        Order order = new Order();
-        order.setId(123L);
-        order.setOrderDetails(orderDetails);
-        order.setUser(user);
-        
-        return paymentService.createPaymentSession(order);
-        
-    }
-    
-    @GetMapping("success")
-    public ResponseEntity<Void> paymentResult(@RequestParam("session_id")String sessionId) throws StripeException {
+    @GetMapping("stripe/success")
+    public ResponseEntity<Void> paymentResult(@RequestParam("session_id") String sessionId) throws StripeException {
         Session session = Session.retrieve(sessionId);
         String status = session.getStatus();
         String redirectUrl = "";
         String orderId = session.getClientReferenceId();
+        // handle order and payment status update here
         
-        // handle order status update here
         switch(status){
             case "complete" -> {
                 redirectUrl = frontendUrl+"/payment?status=complete";
@@ -88,4 +54,15 @@ public class PaymentController {
                 .location(URI.create(redirectUrl))
                 .build();
     }
+    
+    @GetMapping("stripe/cancel")
+    public ResponseEntity<Void> cancelPayment(){
+        // handle order and payment update here
+        
+        return ResponseEntity
+                .status(HttpStatus.SEE_OTHER)
+                .location(URI.create(frontendUrl+"/payment?status=cancel"))
+                .build();
+    }
+    
 }

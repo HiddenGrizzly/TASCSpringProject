@@ -27,6 +27,7 @@ import { NgToastModule } from 'ng-angular-popup';
 import { UserDropdownComponent } from './components/user-dropdown/user-dropdown.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ChangePasswordFormComponent } from './components/change-password-form/change-password-form.component';
+import { PaymentResultComponent } from './pages/payment-result/payment-result.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +49,8 @@ import { ChangePasswordFormComponent } from './components/change-password-form/c
     UserLayoutComponent,
     UserDropdownComponent,
     ModalComponent,
-    ChangePasswordFormComponent
+    ChangePasswordFormComponent,
+    PaymentResultComponent
   ],
   imports: [
     BrowserModule,

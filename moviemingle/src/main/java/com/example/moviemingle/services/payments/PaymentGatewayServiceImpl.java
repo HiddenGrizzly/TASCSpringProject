@@ -45,7 +45,8 @@ public class PaymentGatewayServiceImpl implements PaymentGatewayService {
                 .setMode(SessionCreateParams.Mode.PAYMENT)
                 .setCustomerEmail(order.getUser().getEmail())
                 .setCurrency("usd")
-                .setSuccessUrl(serverUrl+"/payments/success?session_id={CHECKOUT_SESSION_ID}")
+                .setSuccessUrl(serverUrl+"/payments/stripe/success?session_id={CHECKOUT_SESSION_ID}")
+                .setCancelUrl(serverUrl+"/payments/stripe/cancel")
                 .setClientReferenceId(order.getId().toString())
                 .build();
         
