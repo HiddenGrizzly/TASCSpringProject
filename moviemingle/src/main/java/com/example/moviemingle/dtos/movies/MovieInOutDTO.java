@@ -17,7 +17,7 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieInOutDTO {
+public class  MovieInOutDTO {
     @NotBlank
     @Size(max = 255)
     private String movieTitle;

@@ -28,6 +28,14 @@ security:
       secret-key: k7lLhz2Zp8tHnlCUg0VwMdND7PRury7k
       issuer: moviemingle
 
+cloudinary:
+  name: ${CLOUD_NAME}
+  api_key: ${CLOUD_KEY}
+  api_secret: ${CLOUD_SECRET}
+  secure: true
+  root-folder: moviemingle/
+
+
 frontend:
   base-url: http://localhost:4200
 

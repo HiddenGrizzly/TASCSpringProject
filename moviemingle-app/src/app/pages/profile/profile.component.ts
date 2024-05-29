@@ -16,6 +16,10 @@ export class ProfileComponent implements OnInit {
 
   userForm!: FormGroup;
 
+  imageUrl!: string;
+
+  image: File | null = null;
+
   constructor(
     private selfService: SelfService,
     private fb: FormBuilder,
@@ -33,7 +37,7 @@ export class ProfileComponent implements OnInit {
     this.selfService.getUserProfile().subscribe(res => {
       console.log(res);
       this.user = res;
-
+      this.imageUrl = res.avatar;
       this.setDefaultValues();
     })
   }
@@ -60,6 +64,27 @@ export class ProfileComponent implements OnInit {
 
   openChangePasswordForm() {
     this.modalService.open();
+  }
+
+  onImageSelect(event: Event) {
+    const target = event.target as HTMLInputElement;
+    if (target.files) {
+      this.image = target.files[0];
+      let reader = new FileReader();
+      reader.readAsDataURL(this.image);
+      reader.onload = (e: any) => {
+        this.imageUrl = e.target.result
+      }
+    }
+  }
+
+  uploadImage() {
+    if (this.image) {
+      console.log('image available');
+      const formData = new FormData();
+      formData.append('avatar', this.image);
+      this.selfService.changeAvatar(formData).subscribe();
+    }
   }
 
 }

@@ -9,6 +9,7 @@ import com.example.moviemingle.exceptions.UnauthorizedRequestException;
 import com.example.moviemingle.models.users.*;
 import com.example.moviemingle.repositories.RoleRepository;
 import com.example.moviemingle.repositories.UserRepository;
+import com.example.moviemingle.services.clouds.CloudService;
 import com.example.moviemingle.utils.JwtUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -21,6 +22,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import java.nio.CharBuffer;
 import java.util.List;
@@ -41,6 +43,9 @@ public class UserServiceImpl implements UserService{
     
     @Autowired
     private JwtUtil jwtUtil;
+    
+    @Autowired
+    private CloudService cloudService;
     
     @Override
     public User register(RegisterReq dto) {
@@ -108,6 +113,14 @@ public class UserServiceImpl implements UserService{
     public User updateUser(User user, UserUpdateReq req) {
         User updatedUser = Mappers.getMapper(UserMapper.class).updateUser(req, user);
         return userRepo.save(updatedUser);
+    }
+    
+    @Override
+    public String changeAvatar(User user, MultipartFile avatar) {
+        String imgUrl = cloudService.upload(avatar, user.getUsername());
+        user.setAvatar(imgUrl);
+        userRepo.save(user);
+        return imgUrl;
     }
     
 }
