@@ -28,6 +28,10 @@ public class OrderDetailController {
             return ResponseEntity.notFound().build();
         }
     }
+    @GetMapping("/order/{orderId}")
+    public List<OrderDetailDTO> getOrderDetailByOrderId(@PathVariable Long orderId) {
+        return orderDetailService.getOrderDetailByOrderId(orderId);
+    }
     @PostMapping
     public void addOrder(@RequestBody OrderDetailDTO orderDetailDTO) {
         orderDetailService.addOrderDetail(orderDetailDTO);

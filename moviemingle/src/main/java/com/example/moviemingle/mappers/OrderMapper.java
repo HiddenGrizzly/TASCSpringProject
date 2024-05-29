@@ -14,7 +14,7 @@ public interface OrderMapper {
 
     @Mapping(source = "user.id", target = "userId")
     @Mapping(source = "user.username", target = "userName")
-    @Mapping(source = "payment.id", target = "paymentId")
+//    @Mapping(source = "payment.id", target = "paymentId")
     @Mapping(source = "createdAt", target = "createdAt")
     OrderDTO orderToOrderDTO(Order order);
 
@@ -26,6 +26,6 @@ public interface OrderMapper {
 
     @Mapping(source = "userId", target = "user.id")
     @Mapping(source = "userName", target = "user.username")
-    @Mapping(source = "paymentId", target = "payment.id")
+//    @Mapping(source = "paymentId", target = "payment.id")
     Order orderDTOToOrder(OrderDTO orderDTO);
 }

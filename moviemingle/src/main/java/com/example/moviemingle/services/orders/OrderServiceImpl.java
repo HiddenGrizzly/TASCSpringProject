@@ -1,7 +1,9 @@
 package com.example.moviemingle.services.orders;
 
 import com.example.moviemingle.dtos.order.OrderDTO;
+import com.example.moviemingle.dtos.order.OrderDetailDTO;
 import com.example.moviemingle.entities.Order;
+import com.example.moviemingle.entities.OrderDetail;
 import com.example.moviemingle.exceptions.OrderNotFoundException;
 import com.example.moviemingle.mappers.OrderDetailMapper;
 import com.example.moviemingle.mappers.OrderMapper;
@@ -42,6 +44,14 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDetailDTO> getOrderDetailByOrderId(Long orderId) {
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrder_Id(orderId);
+        return orderDetails.stream()
+                .map(orderDetail -> orderDetailMapper.orderDetailToOrderDetailDTO(orderDetail))
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public List<OrderDTO> getOrderByUsername(String username) {
         return orderRepository.findByUser_Username(username).stream()
                 .peek(order -> order.setTotalPrice())
@@ -50,25 +60,25 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
+    public List<OrderDTO> getOrderByUserId(Long userId) {
+        List<Order> orders = orderRepository.findByUser_Id(userId);
+        return orders.stream()
+                .map(orderMapper::orderToOrderDTO)
+                .collect(Collectors.toList());
+    }
+    @Override
+    public List<OrderDTO> getAllOrdersInMonth(int month) {
+        return orderRepository.getAllOrdersInMonth(month).stream()
+                .peek(order -> order.setTotalPrice())
+                .map(orderMapper::orderToOrderDTO)
+                .collect(Collectors.toList());
+    }
+    @Override
     public void createOrder(OrderDTO orderDto) {
         Order order = orderMapper.orderDTOToOrder(orderDto);
         orderRepository.save(order);
     }
 
-//    @Override
-//    public OrderDTO addOrderDetail(Long orderId, OrderDetailDTO orderDetailDTO) {
-//        Order order = orderRepository.findById(orderId).orElseThrow(() -> new OrderNotFoundException("Order not found"));
-//        OrderDetail orderDetail = orderDetailMapper.orderDetailDTOToOrderDetail(orderDetailDTO);
-//        orderDetail.setOrder(order);
-//        if (order.getOrderDetails() == null) {
-//            order.setOrderDetails(new HashSet<>());
-//        }
-//        order.getOrderDetails().add(orderDetail);
-//        orderDetailRepository.save(orderDetail);
-//        order.setTotalPrice();
-//        orderRepository.save(order);
-//        return orderMapper.orderToOrderDTO(order);
-//    }
 
     @Override
     public void updateOrder(Long orderId, OrderDTO orderDto) {
@@ -82,4 +92,5 @@ public class OrderServiceImpl implements OrderService {
     public void deleteOrder(Long orderId) {
         orderRepository.deleteById(orderId);
     }
+
 }

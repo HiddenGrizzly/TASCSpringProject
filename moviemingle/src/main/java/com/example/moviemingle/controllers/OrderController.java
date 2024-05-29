@@ -1,6 +1,7 @@
 package com.example.moviemingle.controllers;
 
 import com.example.moviemingle.dtos.order.OrderDTO;
+import com.example.moviemingle.dtos.order.OrderDetailDTO;
 import com.example.moviemingle.services.orders.OrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +29,21 @@ public class OrderController {
             return ResponseEntity.notFound().build();
         }
     }
-    @GetMapping("/{username}")
+    @GetMapping("/{orderId}/detail")
+    public List<OrderDetailDTO> getOrderDetailByOrderId(@PathVariable Long orderId) {
+        return orderService.getOrderDetailByOrderId(orderId);
+    }
+    @GetMapping("/user/{username}")
     public List<OrderDTO> getOrderByUsername(@PathVariable String username) {
         return orderService.getOrderByUsername(username);
+    }
+    @GetMapping("/user/{userId}")
+    public List<OrderDTO> getOrderByUserId(@PathVariable Long userId) {
+        return orderService.getOrderByUserId(userId);
+    }
+    @GetMapping("/month/{month}")
+    public List<OrderDTO> getAllOrdersInMonth(@PathVariable int month) {
+        return orderService.getAllOrdersInMonth(month);
     }
     @PostMapping
     public void createOrder(@RequestBody OrderDTO orderDto) {

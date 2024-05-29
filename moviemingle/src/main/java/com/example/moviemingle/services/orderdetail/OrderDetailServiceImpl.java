@@ -10,6 +10,7 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -31,6 +32,15 @@ public class OrderDetailServiceImpl implements OrderDetailService {
                 .orElseThrow(() -> new OrderNotFoundException("Order with id " + orderDetailId + " not found"));
         return orderDetailMapper.orderDetailToOrderDetailDTO(orderDetail);
     }
+
+    @Override
+    public List<OrderDetailDTO> getOrderDetailByOrderId(Long orderId) {
+        List<OrderDetail> orderDetails = orderDetailRepository.findByOrder_Id(orderId);
+        return orderDetails.stream()
+                .map(orderDetailMapper::orderDetailToOrderDetailDTO)
+                .collect(Collectors.toList());
+    }
+
     @Override
     public void addOrderDetail(OrderDetailDTO orderDetailDTO) {
         OrderDetail orderDetail = orderDetailMapper.orderDetailDTOToOrderDetail(orderDetailDTO);
