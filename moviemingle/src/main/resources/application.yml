@@ -2,24 +2,27 @@ spring:
   application:
     name: MovieMingle
   datasource:
-    url: jdbc:mysql://localhost:3306/moviemingle
-    username: root
-    password: minhdat1701@@
+    url: jdbc:mysql://${DB_HOST}:${DB_PORT}/moviemingle
+    username: ${DB_USERNAME}
+    password: ${DB_PASSWORD}
     driver-class-name: com.mysql.cj.jdbc.Driver
   jpa:
     generate-ddl: true
     database-platform: org.hibernate.dialect.MySQLDialect
+    show-sql: true
+    hibernate:
+      ddl-auto: ${DDL_AUTO}
     properties:
       hibernate:
         format_sql: true
-        ddl-auto: update
 
 server:
   servlet:
     contextPath: /api/v1
+  port: 8081
 
-#security:
-#  jwt:
-#    token:
-#      secret-key: k7lLhz2Zp8tHnlCUg0VwMdND7PRury7k
-#      issuer: moviemingle
+security:
+  jwt:
+    token:
+      secret-key: k7lLhz2Zp8tHnlCUg0VwMdND7PRury7k
+      issuer: moviemingle
