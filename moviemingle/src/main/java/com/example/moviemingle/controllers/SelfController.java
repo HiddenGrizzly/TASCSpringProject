@@ -11,6 +11,7 @@ import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
 @RestController
 @RequestMapping("self")
@@ -30,9 +31,14 @@ public class SelfController {
         return Mappers.getMapper(UserMapper.class).toUserRes(userService.updateUser(user, req));
     }
     
-    @PatchMapping("password")
+    @PatchMapping("passwords")
     public void changePassword(@RequestBody @Valid ChangePasswordReq req, @AuthenticationPrincipal User user){
         userService.changePassword(user, req);
+    }
+    
+    @PatchMapping(value = "avatars", consumes = {"multipart/form-data"})
+    public void changeAvatar(@RequestBody MultipartFile avatar, @AuthenticationPrincipal User user){
+        userService.changeAvatar(user, avatar);
     }
     
 }
