@@ -1,0 +1,93 @@
+<section class="flex flex-col h-screen justify-center items-center">
+  <div class="m-auto w-1/4">
+      <div class="rounded-lg border border-stroke bg-white shadow-default">
+          <div class="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+              <h3 class="font-medium text-2xl text-black dark:text-white text-center">
+                  Add new movie
+              </h3>
+          </div>
+          <form autocomplete="off" novalidate [formGroup]="registerForm" (submit)="onSubmit()">
+              <div class="p-6.5">
+                  <!-- firstname -->
+                  <div class="mb-4.5">
+                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                          First Name
+                      </label>
+                      <input type="text" placeholder="Enter your first name" formControlName="firstName"
+                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="registerForm.get('firstName')?.invalid && (registerForm.get('firstName')?.dirty || registerForm.get('firstName')?.touched)"
+                          class="text-red-700">
+                          Please enter a valid first name!
+                      </div>
+                  </div>
+                  <!-- lastname -->
+                  <div class="mb-4.5">
+                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                          Last Name
+                      </label>
+                      <input type="text" placeholder="Enter your last name" formControlName="lastName"
+                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="registerForm.get('lastName')?.invalid && (registerForm.get('lastName')?.dirty || registerForm.get('lastName')?.touched)"
+                          class="text-red-700">
+                          Please enter a valid last name!
+                      </div>
+                  </div>
+                  <!-- username -->
+                  <div class="mb-4.5">
+                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                          Username
+                      </label>
+                      <input type="text" placeholder="Enter your username" formControlName="username"
+                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="registerForm.get('username')?.invalid && (registerForm.get('username')?.dirty || registerForm.get('username')?.touched)"
+                          class="text-red-700">
+                          Please enter a valid username!
+                      </div>
+                  </div>
+                  <!-- email -->
+                  <div class="mb-4.5">
+                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                          Email
+                      </label>
+                      <input type="email" placeholder="Enter your email address" formControlName="email"
+                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)"
+                          class="text-red-700">
+                          Please enter a valid email!
+                      </div>
+                  </div>
+                  <!-- password -->
+                  <div class="mb-4.5">
+                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                          Password
+                      </label>
+                      <input type="password" placeholder="Enter password" formControlName="password"
+                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
+                          class="text-red-700">
+                          Please enter a valid password!
+                      </div>
+                  </div>
+                  <!-- password retype -->
+                  <div class="mb-5.5">
+                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                          Re-type Password
+                      </label>
+                      <input type="password" placeholder="Re-enter password" formControlName="reTypePassword"
+                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="registerForm.get('reTypePassword')?.invalid && (registerForm.get('reTypePassword')?.dirty || registerForm.get('reTypePassword')?.touched)"
+                          class="text-red-700">
+                          Please retype a valid password!
+                      </div>
+                  </div>
+                  <!-- register button -->
+                  <button
+                      class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+                      type="submit" [disabled]="registerForm.invalid">
+                      Register
+                  </button>
+              </div>
+          </form>
+      </div>
+  </div>
+</section>

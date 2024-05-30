@@ -1,0 +1,30 @@
+<div class="divide-y-2 divide-slate-200">
+  <p class="text-6xl mb-5">Movies</p>
+  <div class="overflow-x-auto">
+      <table class="table">
+          <thead>
+              <tr>
+                  <th>#</th>
+                  <th>Title</th>
+                  <th>Released</th>
+                  <th>Awards</th>
+                  <th>Price</th>
+                  <th>Action</th>
+              </tr>
+          </thead>
+          <tbody>
+              <tr *ngFor="let movie of movies">
+                  <th>{{movie.id}}</th>
+                  <td>{{movie.movieTitle}}</td>
+                  <td>{{movie.released}}</td>
+                  <td>{{movie.awards}}</td>
+                  <td>{{movie.price}}</td>
+                  <td>
+                      <button class="btn mr-5" routerLink="/admin/movie/{{movie.id}}">Detail</button>
+                  </td>
+              </tr>
+          </tbody>
+      </table>
+      <app-pagination *ngIf="pageInfo" [pageInfo]="pageInfo"></app-pagination>
+  </div>
+</div>
