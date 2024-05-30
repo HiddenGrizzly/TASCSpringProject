@@ -3,10 +3,18 @@ package com.example.moviemingle.controllers;
 import com.example.moviemingle.dtos.order.OrderDTO;
 import com.example.moviemingle.dtos.order.OrderDetailDTO;
 import com.example.moviemingle.dtos.order.OrderUpdateStatusDTO;
+import com.example.moviemingle.entities.Order;
 import com.example.moviemingle.entities.OrderStatus;
+import com.example.moviemingle.mappers.OrderMapper;
+import com.example.moviemingle.models.pages.PageRes;
 import com.example.moviemingle.services.orders.OrderService;
 import jakarta.validation.Valid;
+import org.mapstruct.factory.Mappers;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -21,11 +29,12 @@ public class OrderController {
     private OrderService orderService;
 
     @GetMapping
-    public List<OrderDTO> getAllOrders(@RequestParam(defaultValue = "0") int page,
-                                       @RequestParam(defaultValue = "10") int size) {
-        return orderService.getAllOrder(page, size);
+    public PageRes<OrderDTO> getAllOrders(
+            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable)
+    {
+        Page<OrderDTO> ordersPage = orderService.getAllOrder(pageable);
+        return new PageRes<>(ordersPage);
     }
-
     @GetMapping("/{id}")
     public ResponseEntity<OrderDTO> getOrderById(@PathVariable Long id) {
         OrderDTO orderDto = orderService.getOrderById(id);
@@ -46,7 +55,7 @@ public class OrderController {
         return orderService.getOrderByUsername(username);
     }
 
-    @GetMapping("/user/{userId}")
+    @GetMapping("/users/{userId}")
     public List<OrderDTO> getOrderByUserId(@PathVariable Long userId) {
         return orderService.getOrderByUserId(userId);
     }

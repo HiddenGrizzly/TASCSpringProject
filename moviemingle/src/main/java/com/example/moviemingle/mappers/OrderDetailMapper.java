@@ -13,6 +13,7 @@ import java.util.stream.Collectors;
 @Mapper(componentModel = "spring")
 public interface OrderDetailMapper {
     OrderDetailMapper INSTANCE = Mappers.getMapper(OrderDetailMapper.class);
+
     @Mappings({
             @Mapping(source = "order.id", target = "orderId"),
             @Mapping(source = "movie.id", target = "movieId"),

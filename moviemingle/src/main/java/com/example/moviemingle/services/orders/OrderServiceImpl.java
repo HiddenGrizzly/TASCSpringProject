@@ -6,12 +6,14 @@ import com.example.moviemingle.dtos.order.OrderUpdateStatusDTO;
 import com.example.moviemingle.entities.Order;
 import com.example.moviemingle.entities.OrderDetail;
 import com.example.moviemingle.entities.OrderStatus;
+import com.example.moviemingle.entities.User;
 import com.example.moviemingle.exceptions.OrderNotFoundException;
 import com.example.moviemingle.mappers.OrderDetailMapper;
 import com.example.moviemingle.mappers.OrderMapper;
 import com.example.moviemingle.repositories.OrderDetailRepository;
 import com.example.moviemingle.repositories.OrderRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
@@ -23,19 +25,23 @@ import java.util.stream.Collectors;
 public class OrderServiceImpl implements OrderService {
     @Autowired
     private OrderRepository orderRepository;
+
     @Autowired
     private OrderDetailRepository orderDetailRepository;
 
     @Autowired
     private OrderMapper orderMapper;
+
     @Autowired
     private OrderDetailMapper orderDetailMapper;
-    @Override
-    public List<OrderDTO> getAllOrder(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return orderRepository.findAll(pageable).stream().peek(order -> order.setTotalPrice()).map(orderMapper::orderToOrderDTO).collect(Collectors.toList());
-    }
 
+    public Page<OrderDTO> getAllOrder(Pageable pageable) {
+        Page<Order> ordersPage = orderRepository.findAll(pageable);
+        return ordersPage.map(order -> {
+            order.setTotalPrice();
+            return orderMapper.orderToOrderDTO(order);
+        });
+    }
     @Override
     public OrderDTO getOrderById(Long orderId) {
         Order order = orderRepository.findById(orderId)
@@ -80,13 +86,6 @@ public class OrderServiceImpl implements OrderService {
         return orderRepository.save(order);
     }
 
-    @Override
-    public void updateOrder(Long orderId, OrderDTO orderDTO) {
-        Order order = orderRepository.findById(orderId)
-                .orElseThrow(() -> new OrderNotFoundException("Order with id " + orderId + " not found"));
-//        order.setOrderStatus(orderStatus);
-        orderRepository.save(order);
-    }
     @Override
     public void updateOrderStatus(Long orderId, OrderUpdateStatusDTO dto) {
         Order order = orderRepository.findById(orderId)
