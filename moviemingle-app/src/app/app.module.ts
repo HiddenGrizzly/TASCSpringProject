@@ -17,7 +17,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { UserAdminComponent } from './pages/user-admin/user-admin.component';
+import { UserAdminComponent } from './pages/admin-user/user-admin.component';
 import { UserDetailComponent } from './pages/user-detail/user-detail.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { GoBackBtnComponent } from './components/go-back-btn/go-back-btn.component';
@@ -27,6 +27,8 @@ import { NgToastModule } from 'ng-angular-popup';
 import { UserDropdownComponent } from './components/user-dropdown/user-dropdown.component';
 import { ModalComponent } from './components/modal/modal.component';
 import { ChangePasswordFormComponent } from './components/change-password-form/change-password-form.component';
+import { PaymentResultComponent } from './pages/payment-result/payment-result.component';
+import { UserMovieComponent } from './pages/user-movie/user-movie.component';
 
 @NgModule({
   declarations: [
@@ -48,7 +50,9 @@ import { ChangePasswordFormComponent } from './components/change-password-form/c
     UserLayoutComponent,
     UserDropdownComponent,
     ModalComponent,
-    ChangePasswordFormComponent
+    ChangePasswordFormComponent,
+    PaymentResultComponent,
+    UserMovieComponent
   ],
   imports: [
     BrowserModule,
