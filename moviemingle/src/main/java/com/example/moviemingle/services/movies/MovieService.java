@@ -1,19 +1,23 @@
 package com.example.moviemingle.services.movies;
 
-import com.example.moviemingle.dtos.movies.MovieInDTO;
-import com.example.moviemingle.dtos.movies.MovieOutDTO;
+import com.example.moviemingle.dtos.movies.MovieCreateDTO;
+import com.example.moviemingle.dtos.movies.MovieDTO;
+import com.example.moviemingle.dtos.movies.MovieOmdbDTO;
+import com.example.moviemingle.entities.Movie;
 import org.springframework.data.domain.Page;
 
 public interface MovieService {
 
-    Page<MovieOutDTO> findAllMovies(Integer page, Integer size, String title, String actor, String director, String writer, Double minPrice, Double maxPrice);
+    Page<MovieDTO> findAllMovies(Integer page, Integer size, String title, String actor, String director, String writer, Double minPrice, Double maxPrice);
 
-    MovieOutDTO findMovieById(Long id);
+    MovieDTO findMovieById(Long id);
 
-    MovieOutDTO createMovie(MovieInDTO movieInDTO);
+    Movie createMovie(MovieDTO movieDTO);
 
-    MovieOutDTO updateMovie(Long id, MovieInDTO movieInDTO);
+    MovieDTO updateMovie(Long id, MovieDTO movieDTO);
 
     void deleteMovie(Long id);
+
+    Movie creatMovieFromOmdb(MovieOmdbDTO movieOmdbDTO, MovieCreateDTO movieCreateDTO);
 }
 

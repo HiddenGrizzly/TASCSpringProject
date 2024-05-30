@@ -9,17 +9,23 @@ spring:
   jpa:
     generate-ddl: true
     database-platform: org.hibernate.dialect.MySQLDialect
+    hibernate:
+      ddl-auto: ${DDL_AUTO}
     properties:
       hibernate:
         format_sql: true
-        ddl-auto: ${DDL_AUTO}
+        show_sql: true
 
 server:
   servlet:
     contextPath: /api/v1
+  port: 8081
 
 security:
   jwt:
     token:
       secret-key: k7lLhz2Zp8tHnlCUg0VwMdND7PRury7k
       issuer: moviemingle
+
+omdb:
+  endpoint: http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&

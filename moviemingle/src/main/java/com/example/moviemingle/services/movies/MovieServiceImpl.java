@@ -1,7 +1,8 @@
 package com.example.moviemingle.services.movies;
 
-import com.example.moviemingle.dtos.movies.MovieInDTO;
-import com.example.moviemingle.dtos.movies.MovieOutDTO;
+import com.example.moviemingle.dtos.movies.MovieCreateDTO;
+import com.example.moviemingle.dtos.movies.MovieDTO;
+import com.example.moviemingle.dtos.movies.MovieOmdbDTO;
 import com.example.moviemingle.entities.Movie;
 import com.example.moviemingle.mappers.MovieMapper;
 import com.example.moviemingle.repositories.MovieRepository;
@@ -26,7 +27,7 @@ public class MovieServiceImpl implements MovieService {
     private MovieMapper movieMapper;
 
     @Override
-    public Page<MovieOutDTO> findAllMovies(Integer page, Integer size, String title, String actor, String director, String writer, Double minPrice, Double maxPrice) {
+    public Page<MovieDTO> findAllMovies(Integer page, Integer size, String title, String actor, String director, String writer, Double minPrice, Double maxPrice) {
         Pageable pageable = PageRequest.of(page, size);
         Specification<Movie> spec = Specification.where(null);
 
@@ -45,34 +46,33 @@ public class MovieServiceImpl implements MovieService {
         if (minPrice != null && maxPrice != null) {
             spec = spec.and(MovieSpecifications.priceBetween(minPrice, maxPrice));
         }
-
         Page<Movie> moviePage = movieRepository.findAll(spec, pageable);
-        return moviePage.map(movieMapper::toOutDto);
+        return moviePage.map(movieMapper::toDto);
     }
 
     @Override
-    public MovieOutDTO findMovieById(Long id) {
+    public MovieDTO findMovieById(Long id) {
         Optional<Movie> movie = movieRepository.findById(id);
-        return movie.map(movieMapper::toOutDto).orElse(null);
+        return movie.map(movieMapper::toDto).orElse(null);
     }
 
     @Override
     @Transactional
-    public MovieOutDTO createMovie(MovieInDTO movieInDTO) {
-        Movie movie = movieMapper.toEntity(movieInDTO);
-        movie = movieRepository.save(movie);
-        return movieMapper.toOutDto(movie);
+    public Movie createMovie(MovieDTO movieDTO) {
+        Movie movie = movieMapper.toEntity(movieDTO);
+        movieRepository.save(movie);
+        return movie;
     }
 
     @Override
     @Transactional
-    public MovieOutDTO updateMovie(Long id, MovieInDTO movieInDTO) {
+    public MovieDTO updateMovie(Long id, MovieDTO movieDTO) {
         Optional<Movie> optionalMovie = movieRepository.findById(id);
         if (optionalMovie.isPresent()) {
             Movie existingMovie = optionalMovie.get();
-            existingMovie = movieMapper.toEntity(movieInDTO);
+            existingMovie = movieMapper.toEntity(movieDTO);
             existingMovie = movieRepository.save(existingMovie);
-            return movieMapper.toOutDto(existingMovie);
+            return movieMapper.toDto(existingMovie);
         } else {
             return null;
         }
@@ -81,5 +81,14 @@ public class MovieServiceImpl implements MovieService {
     @Override
     public void deleteMovie(Long id) {
         movieRepository.deleteById(id);
+    }
+
+    @Override
+    public Movie creatMovieFromOmdb(MovieOmdbDTO movieOmdbDTO, MovieCreateDTO movieCreateDTO){
+        Movie movie = movieMapper.omdbToCreate(movieOmdbDTO);
+        movie.setPrice(movieCreateDTO.getPrice());
+        movie.setTrailer(movieCreateDTO.getTrailer());
+        movie = movieRepository.save(movie);
+        return movie;
     }
 }

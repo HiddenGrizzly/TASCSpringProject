@@ -2,8 +2,6 @@ package com.example.moviemingle.services.actors;
 
 import com.example.moviemingle.entities.Actor;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -14,5 +12,9 @@ public interface ActorService {
 
     public Actor saveActor(String actorName);
 
+    public Actor updateActor(Long id,String actorName);
+
     public void deleteActor(Long id);
+
+    Actor findOrCreateActor(String actorName);
 }

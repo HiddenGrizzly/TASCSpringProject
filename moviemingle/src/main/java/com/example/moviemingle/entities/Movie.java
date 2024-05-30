@@ -29,7 +29,7 @@ public class Movie extends BaseEntity {
     private String rated;
 
     @Temporal(TemporalType.DATE)
-    private Date released;
+    private LocalDate released;
 
     private String runtime;
 

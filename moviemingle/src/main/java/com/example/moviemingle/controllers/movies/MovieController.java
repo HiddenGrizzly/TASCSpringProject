@@ -1,25 +1,34 @@
 package com.example.moviemingle.controllers.movies;
 
-import com.example.moviemingle.dtos.movies.MovieInDTO;
-import com.example.moviemingle.dtos.movies.MovieOutDTO;
+import com.example.moviemingle.dtos.movies.MovieCreateDTO;
+import com.example.moviemingle.dtos.movies.MovieDTO;
+import com.example.moviemingle.dtos.movies.MovieOmdbDTO;
+import com.example.moviemingle.entities.Movie;
+import com.example.moviemingle.services.apis.ApiService;
 import com.example.moviemingle.services.movies.MovieService;
-import com.example.moviemingle.services.movies.MovieServiceImpl;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.tags.Tag;
+import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.*;
 
+@Tag(name = "Movie", description = "Movie controller")
 @RestController
-@RequestMapping("/api/v1/movies")
+@RequestMapping("/movies")
 public class MovieController {
 
     @Autowired
     private MovieService movieService;
+
+    @Autowired
+    private ApiService apiService;
+
 
     @Operation(summary = "Lấy về danh sách sản phẩm có phân trang.", description = "Trả về danh sách sản phẩm theo trang.")
     @ApiResponses(value = {
@@ -27,8 +36,8 @@ public class MovieController {
             @ApiResponse(responseCode = "400", description = "Yêu cầu không hợp lệ"),
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ")
     })
-    @GetMapping("")
-    public ResponseEntity<Page<MovieOutDTO>> showMovieList(
+    @GetMapping("/")
+    public ResponseEntity<Page<MovieDTO>> showMovieList(
             @RequestParam(value = "page", defaultValue = "0") Integer page,
             @RequestParam(value = "size", defaultValue = "10") Integer size,
             @RequestParam(value = "title", required = false) String title,
@@ -37,7 +46,7 @@ public class MovieController {
             @RequestParam(value = "writer", required = false) String writer,
             @RequestParam(value = "minPrice", required = false) Double minPrice,
             @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
-        Page<MovieOutDTO> moviePage = movieService.findAllMovies(page, size, title, actor, director, writer, minPrice, maxPrice);
+        Page<MovieDTO> moviePage = movieService.findAllMovies(page, size, title, actor, director, writer, minPrice, maxPrice);
         return ResponseEntity.ok(moviePage);
     }
 
@@ -49,8 +58,8 @@ public class MovieController {
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ")
     })
     @GetMapping("/{id}")
-    public ResponseEntity<MovieOutDTO> showMovieDetail(@PathVariable Long id) {
-        MovieOutDTO movieDTO = movieService.findMovieById(id);
+    public ResponseEntity<MovieDTO> showMovieDetail(@PathVariable Long id) {
+        MovieDTO movieDTO = movieService.findMovieById(id);
         if (movieDTO == null) {
             return ResponseEntity.notFound().build();
         }
@@ -63,10 +72,17 @@ public class MovieController {
             @ApiResponse(responseCode = "400", description = "Yêu cầu không hợp lệ"),
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ")
     })
-    @PostMapping("/add")
-    public ResponseEntity<MovieOutDTO> addMovie(@RequestBody MovieInDTO movieInDTO) {
-        MovieOutDTO addedMovie = movieService.createMovie(movieInDTO);
+    @PostMapping("/")
+    public ResponseEntity<Movie> addMovie(@RequestBody MovieDTO movieDTO) {
+        Movie addedMovie = movieService.createMovie(movieDTO);
         return ResponseEntity.status(HttpStatus.CREATED).body(addedMovie);
+    }
+
+    @PostMapping("/omdb")
+    public ResponseEntity<Movie> addMovieFromOmdb(@RequestBody @Valid MovieCreateDTO movieCreateDTO) {
+        MovieOmdbDTO movieOmdbDTO = apiService.getMovieApi(movieCreateDTO.getTitle());
+        Movie movie = movieService.creatMovieFromOmdb(movieOmdbDTO, movieCreateDTO);
+        return ResponseEntity.status(HttpStatus.CREATED).body(movie);
     }
 
     // Phương thức sửa thông tin của một bộ phim dựa trên ID
@@ -77,9 +93,9 @@ public class MovieController {
             @ApiResponse(responseCode = "404", description = "Không tìm thấy"),
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ")
     })
-    @PutMapping("/edit/{id}")
-    public ResponseEntity<MovieOutDTO> updateMovie(@PathVariable Long id, @RequestBody MovieInDTO movieInDTO) {
-        MovieOutDTO updatedMovie = movieService.updateMovie(id, movieInDTO);
+    @PutMapping("/{id}")
+    public ResponseEntity<MovieDTO> updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO) {
+        MovieDTO updatedMovie = movieService.updateMovie(id, movieDTO);
         if (updatedMovie == null) {
             return ResponseEntity.notFound().build();
         }

@@ -1,5 +1,9 @@
 package com.example.moviemingle.dtos.movies;
 
+import com.example.moviemingle.entities.Actor;
+import com.example.moviemingle.entities.Director;
+import com.example.moviemingle.entities.Genre;
+import com.example.moviemingle.entities.Writer;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -16,43 +20,59 @@ import java.util.Set;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MovieOutDTO {
+public class MovieDTO {
+
     private Long id;
+
     @NotBlank
     @Size(max = 255)
     private String movieTitle;
+
     @NotBlank
     @Size(max = 4)
     private String year;
+
     @NotBlank
     private String imdbId;
+
     @NotBlank
     private String rated;
-    @NotBlank
-    @DateTimeFormat(pattern = "dd-MM-yyyy")
+
+    @NotNull
+    @DateTimeFormat(pattern = "yyyy-MM-dd")
     private LocalDate released;
+
     @NotBlank
     private String runtime;
+
     @NotBlank
-    @Size(max = 4)
+    @Size(max = 1000)
     private String plot;
+
     @NotBlank
     @Size(max = 100)
     private String awards;
+
     @NotBlank
-    @Size(max = 100)
+    @Size(max = 255)
     private String poster;
+
     @NotBlank
-    @Size(max = 100)
+    @Size(max = 255)
     private String trailer;
+
     @NotNull
     private Double price;
+
     @NotNull
     private Set<String> writers;
+
     @NotNull
     private Set<String> actors;
+
     @NotNull
     private Set<String> directors;
+
     @NotNull
     private Set<String> genres;
 }
