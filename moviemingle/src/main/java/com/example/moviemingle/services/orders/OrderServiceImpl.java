@@ -2,8 +2,10 @@ package com.example.moviemingle.services.orders;
 
 import com.example.moviemingle.dtos.order.OrderDTO;
 import com.example.moviemingle.dtos.order.OrderDetailDTO;
+import com.example.moviemingle.dtos.order.OrderUpdateStatusDTO;
 import com.example.moviemingle.entities.Order;
 import com.example.moviemingle.entities.OrderDetail;
+import com.example.moviemingle.entities.OrderStatus;
 import com.example.moviemingle.exceptions.OrderNotFoundException;
 import com.example.moviemingle.mappers.OrderDetailMapper;
 import com.example.moviemingle.mappers.OrderMapper;
@@ -31,8 +33,7 @@ public class OrderServiceImpl implements OrderService {
     @Override
     public List<OrderDTO> getAllOrder(int page, int size) {
         Pageable pageable = PageRequest.of(page, size);
-        return orderRepository.findAll(pageable).stream().peek(order -> order.setTotalPrice()).
-                map(orderMapper::orderToOrderDTO).collect(Collectors.toList());
+        return orderRepository.findAll(pageable).stream().peek(order -> order.setTotalPrice()).map(orderMapper::orderToOrderDTO).collect(Collectors.toList());
     }
 
     @Override
@@ -74,19 +75,24 @@ public class OrderServiceImpl implements OrderService {
                 .collect(Collectors.toList());
     }
     @Override
-    public void createOrder(OrderDTO orderDto) {
+    public Order createOrder(OrderDTO orderDto) {
         Order order = orderMapper.orderDTOToOrder(orderDto);
-        orderRepository.save(order);
+        return orderRepository.save(order);
     }
 
-
     @Override
-    public void updateOrder(Long orderId, OrderDTO orderDto) {
-        Order existingOrder = orderRepository.findById(orderId).get();
-        if (existingOrder != null) {
-            existingOrder = orderMapper.orderDTOToOrder(orderDto);
-            orderRepository.save(existingOrder);
-        }
+    public void updateOrder(Long orderId, OrderDTO orderDTO) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("Order with id " + orderId + " not found"));
+//        order.setOrderStatus(orderStatus);
+        orderRepository.save(order);
+    }
+    @Override
+    public void updateOrderStatus(Long orderId, OrderUpdateStatusDTO dto) {
+        Order order = orderRepository.findById(orderId)
+                .orElseThrow(() -> new OrderNotFoundException("Order with id " + orderId + " not found"));
+        order.setOrderStatus(dto.getOrderStatus());
+        orderRepository.save(order);
     }
     @Override
     public void deleteOrder(Long orderId) {

@@ -8,7 +8,7 @@ import org.mapstruct.MappingTarget;
 import org.mapstruct.factory.Mappers;
 import org.mapstruct.AfterMapping;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", uses = OrderDetailMapper.class)
 public interface OrderMapper {
     OrderMapper INSTANCE = Mappers.getMapper(OrderMapper.class);
 
@@ -16,6 +16,7 @@ public interface OrderMapper {
     @Mapping(source = "user.username", target = "userName")
 //    @Mapping(source = "payment.id", target = "paymentId")
     @Mapping(source = "createdAt", target = "createdAt")
+    @Mapping(source = "orderDetails", target = "orderDetails")
     OrderDTO orderToOrderDTO(Order order);
 
     @AfterMapping

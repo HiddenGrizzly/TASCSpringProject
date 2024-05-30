@@ -33,15 +33,15 @@ public class OrderDetailController {
         return orderDetailService.getOrderDetailByOrderId(orderId);
     }
     @PostMapping
-    public void addOrder(@RequestBody OrderDetailDTO orderDetailDTO) {
+    public void addOrderDetail(@RequestBody OrderDetailDTO orderDetailDTO) {
         orderDetailService.addOrderDetail(orderDetailDTO);
     }
     @PutMapping("/{id}")
-    public void updateOrder(@PathVariable Long id, @RequestBody OrderDetailDTO orderDetailDTO) {
+    public void updateOrderDetail(@PathVariable Long id, @RequestBody OrderDetailDTO orderDetailDTO) {
         orderDetailService.updateOrderDetail(id, orderDetailDTO);
     }
     @DeleteMapping("/{id}")
-    public void deleteOrder(@PathVariable Long id) {
+    public void deleteOrderDetail(@PathVariable Long id) {
         orderDetailService.deleteOrderDetail(id);
     }
 }

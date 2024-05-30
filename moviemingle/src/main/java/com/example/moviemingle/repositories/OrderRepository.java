@@ -13,4 +13,5 @@ public interface OrderRepository extends JpaRepository<Order, Long> {
     List<Order> findByUser_Id(Long userId);
     @Query("SELECT o FROM Order o WHERE MONTH(o.createdAt) = :month")
     List<Order> getAllOrdersInMonth(int month);
+
 }

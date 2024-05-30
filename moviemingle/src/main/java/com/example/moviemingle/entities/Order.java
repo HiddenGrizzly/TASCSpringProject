@@ -2,6 +2,7 @@ package com.example.moviemingle.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -31,8 +32,7 @@ public class Order extends BaseEntity{
     public void setTotalPrice() {
         if (orderDetails != null && !orderDetails.isEmpty()) {
             this.totalPrice = orderDetails.stream().filter(orderDetail -> orderDetail.getOrder().getId().equals(this.getId()))
-                    .mapToDouble(OrderDetail::getPurchasePrice)
-                    .sum();
+                    .mapToDouble(OrderDetail::getPurchasePrice).sum();
         } else {
             this.totalPrice = 0.0;
         }

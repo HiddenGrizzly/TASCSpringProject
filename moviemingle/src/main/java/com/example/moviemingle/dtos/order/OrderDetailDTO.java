@@ -1,5 +1,6 @@
 package com.example.moviemingle.dtos.order;
 
+import com.example.moviemingle.entities.Movie;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

@@ -43,8 +43,11 @@ public class OrderDetailServiceImpl implements OrderDetailService {
 
     @Override
     public void addOrderDetail(OrderDetailDTO orderDetailDTO) {
-        OrderDetail orderDetail = orderDetailMapper.orderDetailDTOToOrderDetail(orderDetailDTO);
-        orderDetailRepository.save(orderDetail);
+        OrderDetail existingOrderDetail = orderDetailRepository.findByOrder_IdAndMovie_Id(orderDetailDTO.getOrderId(), orderDetailDTO.getMovieId());
+        if (existingOrderDetail == null) {
+            OrderDetail orderDetail = orderDetailMapper.orderDetailDTOToOrderDetail(orderDetailDTO);
+            orderDetailRepository.save(orderDetail);
+        }
     }
     @Override
     public void updateOrderDetail(Long orderDetailId, OrderDetailDTO orderDetailDTO) {
