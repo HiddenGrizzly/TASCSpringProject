@@ -1,5 +1,6 @@
 import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
 import { Router, ActivatedRoute } from '@angular/router';
+import { PageInfo } from 'src/app/models/pages/PageInfo';
 import { PageReq } from 'src/app/models/pages/PageReq';
 
 @Component({
@@ -9,9 +10,7 @@ import { PageReq } from 'src/app/models/pages/PageReq';
 })
 export class PaginationComponent implements OnInit, OnChanges {
 
-  @Input() pageRes!: any;
-
-  @Input() route!: any;
+  @Input() pageInfo!: PageInfo;
 
   pageReq: PageReq = {
     page: 0,
@@ -26,16 +25,16 @@ export class PaginationComponent implements OnInit, OnChanges {
     private router: Router,
     private activatedRoute: ActivatedRoute
   ) { }
+
   ngOnChanges(changes: SimpleChanges): void {
     if (changes) {
-      this.pageNrs = Array(this.pageRes.totalPages).fill(null).map((_, i) => i);
+      this.pageNrs = Array(this.pageInfo.totalPages).fill(null).map((_, i) => i);
     }
   }
 
 
   ngOnInit(): void {
     this.activatedRoute.queryParams.subscribe(params => {
-      console.log(params);
       if (params['page'] && params['size']) {
         this.pageReq = {
           page: Number(params['page']),
@@ -56,7 +55,7 @@ export class PaginationComponent implements OnInit, OnChanges {
   }
 
   sendRequest(): void {
-    this.router.navigate([this.route], { queryParams: this.pageReq });
+    this.router.navigate([this.router.url.split('?')[0]], { queryParams: this.pageReq });
   }
 
 }

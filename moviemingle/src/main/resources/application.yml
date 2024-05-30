@@ -17,6 +17,7 @@ spring:
         format_sql: true
 
 server:
+  base-url: http://localhost:8081/api/v1
   servlet:
     contextPath: /api/v1
   port: 8081
@@ -34,6 +35,14 @@ cloudinary:
   secure: true
   root-folder: moviemingle/
 
+
+frontend:
+  base-url: http://localhost:4200
+
+payment:
+  stripe:
+    api-key: sk_test_51PCICTDFODxhL5UQRkwOSyH7KARdvyvDTaYLSFSSQJ1gyVVKHWDGxfqsUBLfcTmCS7wVRew5oF9XVt4JdEEtUh4r00HYFQKwHx
+    webhook-key: whsec_56d3a92756ae9abf8c1f868b932efbbc546ccbda9cf3a92f6b4232411e6691c4
 
 omdb:
   endpoint: http://www.omdbapi.com/?apikey=${OMDB_API_KEY}&

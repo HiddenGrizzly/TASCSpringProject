@@ -6,10 +6,12 @@ import { PublicLayoutComponent } from './layouts/public-layout/public-layout.com
 import { HomeComponent } from './pages/home/home.component';
 import { AdminLayoutComponent } from './layouts/admin-layout/admin-layout.component';
 import { authGuard } from './guards/auth.guard';
-import { UserAdminComponent } from './pages/user-admin/user-admin.component';
+import { UserAdminComponent } from './pages/admin-user/user-admin.component';
 import { UserDetailComponent } from './pages/user-detail/user-detail.component';
 import { UserLayoutComponent } from './layouts/user-layout/user-layout.component';
 import { ProfileComponent } from './pages/profile/profile.component';
+import { PaymentResultComponent } from './pages/payment-result/payment-result.component';
+import { UserMovieComponent } from './pages/user-movie/user-movie.component';
 
 const routes: Routes = [
   {
@@ -29,8 +31,16 @@ const routes: Routes = [
           {
             path: 'profile',
             component: ProfileComponent
+          },
+          {
+            path: 'movies',
+            component: UserMovieComponent
           }
         ]
+      },
+      {
+        path: 'payment',
+        component: PaymentResultComponent
       }
     ]
   },
