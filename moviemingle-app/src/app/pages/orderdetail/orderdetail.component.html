@@ -1,0 +1,47 @@
+<div class="content-wrapper" *ngIf="order">
+  <section class="content py-4">
+    <div class="container mx-auto px-4">
+      <h1 class="text-xl font-semibold mb-4">User detail view</h1>
+      <p><span class="font-semibold">Order ID:</span> {{order.id}}</p>
+      <p><span class="font-semibold">Username:</span> {{order.userName}}</p>
+      <p><span class="font-semibold">Total Price:</span> {{order.totalPrice}}</p>
+      <form [formGroup]="form" (submit)="onSave()" class="my-4">
+        <div class="mb-4">
+          <label for="orderStatus" class="block text-sm font-medium text-gray-700">Order Status</label>
+          <select id="orderStatus" class="form-select mt-1 block rounded border-gray-300 shadow-sm focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" formControlName="orderStatus">
+            <option value="PENDING">PENDING</option>
+            <option value="COMPLETED">COMPLETED</option>
+            <option value="CANCELLED">CANCELLED</option>
+          </select>
+        </div>
+        <table class="w-full border-collapse border border-gray-200 my-4">
+          <thead>
+            <tr>
+              <th class="border border-gray-300 px-4 py-2" style="width: 10px">#</th>
+              <!-- <th class="border border-gray-300 px-4 py-2">Order ID</th> -->
+              <th class="border border-gray-300 px-4 py-2">Movie ID</th>
+              <th class="border border-gray-300 px-4 py-2">Movie Title</th>
+              <th class="border border-gray-300 px-4 py-2">Movie Price</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let item of order_detail, let i = index">
+              <td class="border border-gray-300 px-4 py-2 text-center">{{ i + 1 }}</td>
+              <!-- <td class="border border-gray-300 px-4 py-2">{{ item.orderId }}</td> -->
+              <td class="border border-gray-300 px-4 py-2 text-center">{{ item.movieId }}</td>
+              <td class="border border-gray-300 px-4 py-2 text-center">{{ item.movieTitle }}</td>
+              <td class="border border-gray-300 px-4 py-2 text-center">{{ item.moviePrice }}$ </td>
+            </tr>
+          </tbody>
+        </table>
+        <div class="flex space-x-2">
+          <button type="submit" class="btn bg-blue-500 text-white px-4 py-2 rounded" [disabled]="!form.valid">Save</button>
+          <a [routerLink]="['/admin/order']" class="btn bg-yellow-500 text-white px-4 py-2 rounded">Back</a>
+        </div>
+      </form>
+      <div class="my-4">
+
+      </div>
+    </div>
+  </section>
+</div>
