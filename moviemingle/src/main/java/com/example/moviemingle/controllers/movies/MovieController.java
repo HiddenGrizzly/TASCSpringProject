@@ -4,6 +4,7 @@ import com.example.moviemingle.dtos.movies.MovieCreateDTO;
 import com.example.moviemingle.dtos.movies.MovieDTO;
 import com.example.moviemingle.dtos.movies.MovieOmdbDTO;
 import com.example.moviemingle.entities.Movie;
+import com.example.moviemingle.models.pages.PageRes;
 import com.example.moviemingle.services.apis.ApiService;
 import com.example.moviemingle.services.movies.MovieService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -14,6 +15,9 @@ import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -36,18 +40,17 @@ public class MovieController {
             @ApiResponse(responseCode = "400", description = "Yêu cầu không hợp lệ"),
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ")
     })
-    @GetMapping("/")
-    public ResponseEntity<Page<MovieDTO>> showMovieList(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "10") Integer size,
+    @GetMapping
+    public ResponseEntity<PageRes<MovieDTO>> showMovieList(
+            @PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable,
             @RequestParam(value = "title", required = false) String title,
             @RequestParam(value = "actor", required = false) String actor,
             @RequestParam(value = "director", required = false) String director,
             @RequestParam(value = "writer", required = false) String writer,
             @RequestParam(value = "minPrice", required = false) Double minPrice,
             @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
-        Page<MovieDTO> moviePage = movieService.findAllMovies(page, size, title, actor, director, writer, minPrice, maxPrice);
-        return ResponseEntity.ok(moviePage);
+        Page<MovieDTO> moviePage = movieService.findAllMovies(pageable, title, actor, director, writer, minPrice, maxPrice);
+        return ResponseEntity.ok(new PageRes<>(moviePage));
     }
 
     @Operation(summary = "Lấy về một phim theo Id.", description = "Trả về một phim dựa theo Id truyền vào.")

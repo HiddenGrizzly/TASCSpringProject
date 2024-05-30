@@ -20,6 +20,7 @@ import java.util.Set;
 @Table(name = "movies")
 public class Movie extends BaseEntity {
 
+    @Column(unique = true, nullable = false)
     private String movieTitle;
 
     private String year;

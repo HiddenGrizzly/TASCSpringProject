@@ -5,10 +5,11 @@ import com.example.moviemingle.dtos.movies.MovieDTO;
 import com.example.moviemingle.dtos.movies.MovieOmdbDTO;
 import com.example.moviemingle.entities.Movie;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 
 public interface MovieService {
 
-    Page<MovieDTO> findAllMovies(Integer page, Integer size, String title, String actor, String director, String writer, Double minPrice, Double maxPrice);
+    Page<MovieDTO> findAllMovies(Pageable pageable, String title, String actor, String director, String writer, Double minPrice, Double maxPrice);
 
     MovieDTO findMovieById(Long id);
 

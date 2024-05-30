@@ -4,6 +4,7 @@ import com.example.moviemingle.dtos.movies.MovieCreateDTO;
 import com.example.moviemingle.dtos.movies.MovieDTO;
 import com.example.moviemingle.dtos.movies.MovieOmdbDTO;
 import com.example.moviemingle.entities.Movie;
+import com.example.moviemingle.exceptions.DuplicateTitleException;
 import com.example.moviemingle.mappers.MovieMapper;
 import com.example.moviemingle.repositories.MovieRepository;
 import com.example.moviemingle.specifications.movies.MovieSpecifications;
@@ -27,8 +28,7 @@ public class MovieServiceImpl implements MovieService {
     private MovieMapper movieMapper;
 
     @Override
-    public Page<MovieDTO> findAllMovies(Integer page, Integer size, String title, String actor, String director, String writer, Double minPrice, Double maxPrice) {
-        Pageable pageable = PageRequest.of(page, size);
+    public Page<MovieDTO> findAllMovies(Pageable pageable, String title, String actor, String director, String writer, Double minPrice, Double maxPrice) {
         Specification<Movie> spec = Specification.where(null);
 
         if (title != null) {
@@ -59,6 +59,9 @@ public class MovieServiceImpl implements MovieService {
     @Override
     @Transactional
     public Movie createMovie(MovieDTO movieDTO) {
+        if (movieRepository.existsByMovieTitle(movieDTO.getMovieTitle())) {
+            throw new DuplicateTitleException("Movie with title '" + movieDTO.getMovieTitle() + "' already exists.");
+        }
         Movie movie = movieMapper.toEntity(movieDTO);
         movieRepository.save(movie);
         return movie;
@@ -85,6 +88,9 @@ public class MovieServiceImpl implements MovieService {
 
     @Override
     public Movie creatMovieFromOmdb(MovieOmdbDTO movieOmdbDTO, MovieCreateDTO movieCreateDTO){
+        if (movieRepository.existsByMovieTitle(movieCreateDTO.getTitle())) {
+            throw new DuplicateTitleException("Movie with title '" + movieCreateDTO.getTitle() + "' already exists.");
+        }
         Movie movie = movieMapper.omdbToCreate(movieOmdbDTO);
         movie.setPrice(movieCreateDTO.getPrice());
         movie.setTrailer(movieCreateDTO.getTrailer());
