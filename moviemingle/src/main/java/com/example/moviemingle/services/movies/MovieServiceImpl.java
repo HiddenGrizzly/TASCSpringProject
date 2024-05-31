@@ -4,6 +4,7 @@ import com.example.moviemingle.dtos.movies.MovieCreateDTO;
 import com.example.moviemingle.dtos.movies.MovieDTO;
 import com.example.moviemingle.dtos.movies.MovieOmdbDTO;
 import com.example.moviemingle.entities.Movie;
+import com.example.moviemingle.entities.User;
 import com.example.moviemingle.exceptions.DuplicateTitleException;
 import com.example.moviemingle.mappers.MovieMapper;
 import com.example.moviemingle.repositories.MovieRepository;
@@ -16,6 +17,8 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 
+import java.util.Arrays;
+import java.util.List;
 import java.util.Optional;
 
 @Service
@@ -96,5 +99,16 @@ public class MovieServiceImpl implements MovieService {
         movie.setTrailer(movieCreateDTO.getTrailer());
         movie = movieRepository.save(movie);
         return movie;
+    }
+    
+    @Override
+    public List<MovieDTO> getMoviesByIds(List<Long> ids) {
+        return movieRepository.findByIdIn(ids).stream().map(movieMapper::toDto).toList();
+    }
+    
+    @Override
+    public Page<MovieDTO> getUserMovies(User user, Pageable pageable) {
+        Page<Movie> moviePage = movieRepository.findByUserMovies_User(user, pageable);
+        return moviePage.map(movieMapper::toDto);
     }
 }

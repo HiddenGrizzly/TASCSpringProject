@@ -13,10 +13,10 @@ import { OrderService } from 'src/app/services/order/order.service';
 
 export class OrderComponent implements OnInit {
   constructor(
-    private orderService: OrderService, 
+    private orderService: OrderService,
     private router: Router,
     private activatedRoute: ActivatedRoute
-  ) {}
+  ) { }
 
   order: Order[] = [];
   pageReq: PageReq | null = null;
@@ -39,17 +39,18 @@ export class OrderComponent implements OnInit {
         console.log(res);
         this.order = res.content;
       });
-    });  
+    });
   }
   //edit order by id
   onClickEdit(item: Order) {
-    this.router.navigateByUrl('admin/order/' + item.id);
+    this.router.navigateByUrl('admin/orders/' + item.id);
   }
+
   //delete order by id
   onClickDelete(item: Order) {
-    if (item) 
+    if (item)
       this.orderService.deleteOrder(item.id).subscribe((res) => {
-        this.getAllOrders();  
+        this.getAllOrders();
       })
   }
 }

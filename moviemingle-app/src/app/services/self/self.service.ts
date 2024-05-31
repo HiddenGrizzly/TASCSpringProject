@@ -2,6 +2,8 @@ import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { NgToastService } from 'ng-angular-popup';
 import { Observable, catchError, tap } from 'rxjs';
+import { Cart } from 'src/app/models/cart/Cart';
+import { PageReq } from 'src/app/models/pages/PageReq';
 import { UserRes } from 'src/app/models/users/UserRes';
 
 @Injectable({
@@ -55,6 +57,16 @@ export class SelfService {
         throw error;
       })
     )
+  }
+
+  createUserOrder(cart: Cart): Observable<any> {
+    return this.http.post(`${this.url}/orders`, cart);
+  }
+
+  getUserMovies(page: PageReq | null): Observable<any> {
+    return this.http.get(`${this.url}/movies`, {
+      params: { ...page }
+    });
   }
 
 }

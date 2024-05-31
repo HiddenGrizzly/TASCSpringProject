@@ -21,9 +21,8 @@ export class MovieDetailAdminComponent implements OnInit {
 
   ngOnInit(): void {
     this.activatedRoute.params.subscribe(params => {
-      if(params['id']){
-        this.movieService.getById(Number(params['id'])).subscribe(res =>{
-          console.log(res);
+      if (params['id']) {
+        this.movieService.getById(Number(params['id'])).subscribe(res => {
           this.movie = res;
         })
       }

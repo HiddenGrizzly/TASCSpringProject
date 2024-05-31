@@ -34,6 +34,13 @@ import { MovieDetailAdminComponent } from './pages/movies-admin/movie-detail-adm
 import { UserAdminComponent } from './pages/user-admin/user-admin.component';
 import { OrderComponent } from './pages/order/order.component';
 import { OrderdetailComponent } from './pages/orderdetail/orderdetail.component';
+import { UtubePlayerComponent } from './components/utube-player/utube-player.component';
+import { UserMovieCardComponent } from './components/user-movie-card/user-movie-card.component';
+import { MovieListComponent } from './pages/movies/movie-list/movie-list.component';
+import { MovieCardComponent } from './components/movie-card/movie-card.component';
+import { MovieDetailComponent } from './pages/movie-detail/movie-detail.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { PageNotfoundComponent } from './pages/page-notfound/page-notfound.component';
 
 @NgModule({
   declarations: [
@@ -60,10 +67,17 @@ import { OrderdetailComponent } from './pages/orderdetail/orderdetail.component'
     UserMovieComponent,
     MovieListAdminComponent,
     MovieFormAdminComponent,
-    MovieDetailAdminComponent
+    MovieDetailAdminComponent,
     UserMovieComponent,
     OrderComponent,
-    OrderdetailComponent
+    OrderdetailComponent,
+    UtubePlayerComponent,
+    UserMovieCardComponent,
+    MovieListComponent,
+    MovieCardComponent,
+    MovieDetailComponent,
+    CartComponent,
+    PageNotfoundComponent
   ],
   imports: [
     BrowserModule,
