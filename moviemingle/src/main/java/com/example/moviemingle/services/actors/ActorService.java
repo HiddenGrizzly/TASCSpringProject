@@ -2,19 +2,20 @@ package com.example.moviemingle.services.actors;
 
 import com.example.moviemingle.entities.Actor;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 @Service
 public interface ActorService {
-    public Page<Actor> findAllActors(int page, int size);
+    Page<Actor> findAllActors(Pageable pageable);
 
-    public Actor findActorById(Long id);
+    Actor findActorById(Long id);
 
-    public Actor saveActor(String actorName);
+    Actor saveActor(String actorName);
 
-    public Actor updateActor(Long id,String actorName);
+    Actor updateActor(Long id, String actorName);
 
-    public void deleteActor(Long id);
+    void deleteActor(Long id);
 
     Actor findOrCreateActor(String actorName);
 }

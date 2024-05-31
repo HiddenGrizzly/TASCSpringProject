@@ -1,9 +1,14 @@
 package com.example.moviemingle.controllers.movies;
 
+import com.example.moviemingle.entities.Actor;
 import com.example.moviemingle.entities.Genre;
+import com.example.moviemingle.models.pages.PageRes;
 import com.example.moviemingle.services.genres.GenreService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -16,11 +21,9 @@ public class GenreController {
     private GenreService genreService;
 
     @GetMapping("/")
-    public ResponseEntity<Page<Genre>> getAllGenres(
-            @RequestParam(value = "page", defaultValue = "0") Integer page,
-            @RequestParam(value = "size", defaultValue = "10") Integer size) {
-        Page<Genre> genrePage = genreService.findAllGenres(page, size);
-        return ResponseEntity.ok(genrePage);
+    public ResponseEntity<PageRes<Genre>> getAllGenres(@PageableDefault(page = 0, size = 10, sort = "id", direction = Sort.Direction.ASC) Pageable pageable) {
+        Page<Genre> genrePage = genreService.findAllGenres(pageable);
+        return ResponseEntity.ok(new PageRes<>(genrePage));
     }
 
     @GetMapping("/{id}")

@@ -1,4 +1,4 @@
-export interface MovieAdd {
+export interface MovieDto {
     id?: number;
   
     movieTitle: string;

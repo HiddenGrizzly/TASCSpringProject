@@ -8,15 +8,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface WriterService {
-    public Page<Writer> findAllWriters(int page, int size);
+    Page<Writer> findAllWriters(Pageable pageable);
 
-    public Writer findWriterById(Long id);
+    Writer findWriterById(Long id);
 
-    public Writer saveWriter(String writerName);
+    Writer saveWriter(String writerName);
 
     Writer updateWriter(Long id, String writerName);
 
-    public void deleteWriter(Long id);
+    void deleteWriter(Long id);
 
     Writer findOrCreateWriter(String writerName);
 }

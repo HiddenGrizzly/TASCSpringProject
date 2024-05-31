@@ -17,6 +17,7 @@ import { MovieDetailAdminComponent } from './pages/movies-admin/movie-detail-adm
 import { UserAdminComponent } from './pages/user-admin/user-admin.component';
 import { OrderComponent } from './pages/order/order.component';
 import { OrderdetailComponent } from './pages/orderdetail/orderdetail.component';
+import { MovieFormUpdateAdminComponent } from './pages/movies-admin/movie-form-update-admin/movie-form-update-admin.component';
 
 const routes: Routes = [
   {
@@ -76,11 +77,15 @@ const routes: Routes = [
           },
           {
             path: 'edit/:id',
-            component: MovieFormAdminComponent
+            component: MovieFormUpdateAdminComponent
           },
           {
             path: ':id',
             component: MovieDetailAdminComponent
+          },
+          {
+            path: 'delete/:id',
+            component: MovieListAdminComponent
           }
         ]
       },

@@ -60,7 +60,7 @@ import { OrderdetailComponent } from './pages/orderdetail/orderdetail.component'
     UserMovieComponent,
     MovieListAdminComponent,
     MovieFormAdminComponent,
-    MovieDetailAdminComponent
+    MovieDetailAdminComponent,
     UserMovieComponent,
     OrderComponent,
     OrderdetailComponent
