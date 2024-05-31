@@ -1,5 +1,6 @@
 package com.example.moviemingle.entities;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -21,6 +22,7 @@ public class Director extends BaseEntity {
     private String directorName;
 
     @ManyToMany(mappedBy = "directors")
+    @JsonIgnore
     private Set<Movie> movies = new HashSet<>();
 
 }

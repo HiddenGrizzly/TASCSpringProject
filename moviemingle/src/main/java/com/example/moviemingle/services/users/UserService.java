@@ -27,6 +27,6 @@ public interface UserService {
     Page<User> getAll(Pageable pageable);
     
     User updateUser(User user, UserUpdateReq req);
-    
+
     String changeAvatar(User user, MultipartFile avatar);
 }

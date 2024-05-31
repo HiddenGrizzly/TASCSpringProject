@@ -14,5 +14,9 @@ public interface WriterService {
 
     public Writer saveWriter(String writerName);
 
+    Writer updateWriter(Long id, String writerName);
+
     public void deleteWriter(Long id);
+
+    Writer findOrCreateWriter(String writerName);
 }

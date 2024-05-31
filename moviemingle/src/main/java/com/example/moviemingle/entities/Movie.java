@@ -7,6 +7,8 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,6 +20,7 @@ import java.util.Set;
 @Table(name = "movies")
 public class Movie extends BaseEntity {
 
+    @Column(unique = true, nullable = false)
     private String movieTitle;
 
     private String year;
@@ -26,6 +29,7 @@ public class Movie extends BaseEntity {
 
     private String rated;
 
+    @Temporal(TemporalType.DATE)
     private LocalDate released;
 
     private String runtime;

@@ -46,7 +46,7 @@ public class UserServiceImpl implements UserService{
     
     @Autowired
     private CloudService cloudService;
-    
+
     @Override
     public User register(RegisterReq dto) {
         Role role = roleRepo.findByRoleName(RoleType.USER).orElseThrow(() -> new NotfoundException("Role not found"));
@@ -122,5 +122,5 @@ public class UserServiceImpl implements UserService{
         userRepo.save(user);
         return imgUrl;
     }
-    
+
 }

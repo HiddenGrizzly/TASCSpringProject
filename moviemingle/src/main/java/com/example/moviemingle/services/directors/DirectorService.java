@@ -14,5 +14,9 @@ public interface DirectorService {
 
     public Director saveDirector(String directorName);
 
+    Director updateDirector(Long id, String directorName);
+
     public void deleteDirector(Long id);
+
+    Director findOrCreateDirector(String directorName);
 }

@@ -40,5 +40,5 @@ public class SelfController {
     public void changeAvatar(@RequestBody MultipartFile avatar, @AuthenticationPrincipal User user){
         userService.changeAvatar(user, avatar);
     }
-    
+
 }

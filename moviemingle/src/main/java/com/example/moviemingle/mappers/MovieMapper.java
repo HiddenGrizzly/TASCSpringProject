@@ -1,85 +1,191 @@
 package com.example.moviemingle.mappers;
 
-import com.example.moviemingle.dtos.movies.MovieInOutDTO;
-import com.example.moviemingle.entities.*;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Named;
-import org.mapstruct.factory.Mappers;
+import com.example.moviemingle.dtos.movies.MovieCreateDTO;
+import com.example.moviemingle.dtos.movies.MovieDTO;
+import com.example.moviemingle.dtos.movies.MovieOmdbDTO;
+import com.example.moviemingle.entities.Actor;
+import com.example.moviemingle.entities.Director;
+import com.example.moviemingle.entities.Genre;
+import com.example.moviemingle.entities.Movie;
+import com.example.moviemingle.entities.Writer;
+import com.example.moviemingle.services.actors.ActorService;
+import com.example.moviemingle.services.directors.DirectorService;
+import com.example.moviemingle.services.genres.GenreService;
+import com.example.moviemingle.services.writer.WriterService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+import java.util.HashSet;
+import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
-public interface MovieMapper {
+@Component
+public class MovieMapper {
 
-    MovieMapper INSTANCE = Mappers.getMapper(MovieMapper.class);
+    private final ActorService actorService;
+    private final DirectorService directorService;
+    private final WriterService writerService;
+    private final GenreService genreService;
 
-    @Mapping(source = "writers", target = "writers", qualifiedByName = "stringToWriters")
-    @Mapping(source = "actors", target = "actors", qualifiedByName = "stringToActors")
-    @Mapping(source = "directors", target = "directors", qualifiedByName = "stringToDirectors")
-    @Mapping(source = "genres", target = "genres", qualifiedByName = "stringToGenres")
-    Movie toEntity(MovieInOutDTO dto);
-
-    @Mapping(source = "writers", target = "writers", qualifiedByName = "writersToString")
-    @Mapping(source = "actors", target = "actors", qualifiedByName = "actorsToString")
-    @Mapping(source = "directors", target = "directors", qualifiedByName = "directorsToString")
-    @Mapping(source = "genres", target = "genres", qualifiedByName = "genresToString")
-    MovieInOutDTO toDto(Movie entity);
-
-    @Named("stringToWriters")
-    default Set<Writer> stringToWriters(Set<String> names) {
-        return names.stream().map(name -> {
-            Writer writer = new Writer();
-            writer.setWriterName(name);
-            return writer;
-        }).collect(Collectors.toSet());
+    @Autowired
+    public MovieMapper(ActorService actorService, DirectorService directorService, WriterService writerService, GenreService genreService) {
+        this.actorService = actorService;
+        this.directorService = directorService;
+        this.writerService = writerService;
+        this.genreService = genreService;
     }
 
-    @Named("stringToActors")
-    default Set<Actor> stringToActors(Set<String> names) {
-        return names.stream().map(name -> {
-            Actor actor = new Actor();
-            actor.setActorName(name);
-            return actor;
-        }).collect(Collectors.toSet());
+    public MovieDTO toDto(Movie movie) {
+        if (movie == null) {
+            return null;
+        }
+
+        MovieDTO movieDTO = new MovieDTO();
+        movieDTO.setId(movie.getId());
+        movieDTO.setMovieTitle(movie.getMovieTitle());
+        movieDTO.setYear(movie.getYear());
+        movieDTO.setImdbId(movie.getImdbId());
+        movieDTO.setReleased(movie.getReleased());
+        movieDTO.setRuntime(movie.getRuntime());
+        movieDTO.setPlot(movie.getPlot());
+        movieDTO.setAwards(movie.getAwards());
+        movieDTO.setPoster(movie.getPoster());
+        movieDTO.setTrailer(movie.getTrailer());
+        movieDTO.setPrice(movie.getPrice());
+        movieDTO.setActors(movie.getActors().stream().map(Actor::getActorName).collect(Collectors.toSet()));
+        movieDTO.setDirectors(movie.getDirectors().stream().map(Director::getDirectorName).collect(Collectors.toSet()));
+        movieDTO.setWriters(movie.getWriters().stream().map(Writer::getWriterName).collect(Collectors.toSet()));
+        movieDTO.setGenres(movie.getGenres().stream().map(Genre::getGenreName).collect(Collectors.toSet()));
+
+        return movieDTO;
     }
 
-    @Named("stringToDirectors")
-    default Set<Director> stringToDirectors(Set<String> names) {
-        return names.stream().map(name -> {
-            Director director = new Director();
-            director.setDirectorName(name);
-            return director;
-        }).collect(Collectors.toSet());
+    public Movie toEntity(MovieDTO movieDTO) {
+        if (movieDTO == null) {
+            return null;
+        }
+
+        Movie movie = new Movie();
+        movie.setId(movieDTO.getId());
+        movie.setMovieTitle(movieDTO.getMovieTitle());
+        movie.setYear(movie.getYear());
+        movie.setImdbId(movieDTO.getImdbId());
+        movie.setReleased(movieDTO.getReleased());
+        movie.setRuntime(movieDTO.getRuntime());
+        movie.setPlot(movieDTO.getPlot());
+        movie.setAwards(movieDTO.getAwards());
+        movie.setPoster(movieDTO.getPoster());
+        movie.setTrailer(movieDTO.getTrailer());
+        movie.setPrice(movieDTO.getPrice());
+        movie.setActors(convertStringSetToActorSet(movieDTO.getActors()));
+        movie.setDirectors(convertStringSetToDirectorSet(movieDTO.getDirectors()));
+        movie.setWriters(convertStringSetToWriterSet(movieDTO.getWriters()));
+        movie.setGenres(convertStringSetToGenreSet(movieDTO.getGenres()));
+
+        return movie;
     }
 
-    @Named("stringToGenres")
-    default Set<Genre> stringToGenres(Set<String> names) {
-        return names.stream().map(name -> {
-            Genre genre = new Genre();
-            genre.setGenreName(name);
-            return genre;
-        }).collect(Collectors.toSet());
+    private Set<Actor> convertStringSetToActorSet(Set<String> actorNames) {
+        return actorNames.stream()
+                .map(actorService::findOrCreateActor)
+                .collect(Collectors.toSet());
     }
 
-    @Named("writersToString")
-    default Set<String> writersToString(Set<Writer> writers) {
-        return writers.stream().map(Writer::getWriterName).collect(Collectors.toSet());
+    private Set<Director> convertStringSetToDirectorSet(Set<String> directorNames) {
+        return directorNames.stream()
+                .map(directorService::findOrCreateDirector)
+                .collect(Collectors.toSet());
     }
 
-    @Named("actorsToString")
-    default Set<String> actorsToString(Set<Actor> actors) {
-        return actors.stream().map(Actor::getActorName).collect(Collectors.toSet());
+    private Set<Writer> convertStringSetToWriterSet(Set<String> writerNames) {
+        return writerNames.stream()
+                .map(writerService::findOrCreateWriter)
+                .collect(Collectors.toSet());
     }
 
-    @Named("directorsToString")
-    default Set<String> directorsToString(Set<Director> directors) {
-        return directors.stream().map(Director::getDirectorName).collect(Collectors.toSet());
+    private Set<Genre> convertStringSetToGenreSet(Set<String> genreNames) {
+        return genreNames.stream()
+                .map(genreService::findOrCreateGenre)
+                .collect(Collectors.toSet());
     }
 
-    @Named("genresToString")
-    default Set<String> genresToString(Set<Genre> genres) {
-        return genres.stream().map(Genre::getGenreName).collect(Collectors.toSet());
+    public Movie omdbToCreate(MovieOmdbDTO movieOmdbDTO) {
+        if (movieOmdbDTO == null) {
+            return null;
+        }
+
+        Movie movie = new Movie();
+        movie.setMovieTitle(movieOmdbDTO.getTitle());
+        movie.setYear(movieOmdbDTO.getYear());
+        movie.setImdbId(movieOmdbDTO.getImdbId());
+        movie.setRated(movieOmdbDTO.getRated());
+        movie.setReleased(movieOmdbDTO.getReleased());
+        movie.setRuntime(movieOmdbDTO.getRuntime());
+        movie.setPlot(movieOmdbDTO.getPlot());
+        movie.setAwards(movieOmdbDTO.getAwards());
+        movie.setPoster(movieOmdbDTO.getPoster());
+        // Trailer and price are not provided in the DTO
+        movie.setTrailer(null);
+        movie.setPrice(null);
+
+        // Set genres
+        movie.setGenres(convertToGenreEntities(movieOmdbDTO.getGenres()));
+
+        // Set directors
+        movie.setDirectors(convertToDirectorEntities(movieOmdbDTO.getDirectors()));
+
+        // Set actors
+        movie.setActors(convertToActorEntities(movieOmdbDTO.getActors()));
+
+        // Set writers
+        movie.setWriters(convertToWriterEntities(movieOmdbDTO.getWriters()));
+
+        return movie;
+    }
+
+    private Set<Genre> convertToGenreEntities(List<String> genreNames) {
+        Set<Genre> genres = new HashSet<>();
+        if (genreNames != null) {
+            for (String genreName : genreNames) {
+                Genre genre = genreService.findOrCreateGenre(genreName);
+                genres.add(genre);
+            }
+        }
+        return genres;
+    }
+
+    private Set<Director> convertToDirectorEntities(List<String> directorNames) {
+        Set<Director> directors = new HashSet<>();
+        if (directorNames != null) {
+            for (String directorName : directorNames) {
+                Director director = directorService.findOrCreateDirector(directorName);
+                directors.add(director);
+            }
+        }
+        return directors;
+    }
+
+    private Set<Actor> convertToActorEntities(List<String> actorNames) {
+        Set<Actor> actors = new HashSet<>();
+        if (actorNames != null) {
+            for (String actorName : actorNames) {
+                Actor actor = actorService.findOrCreateActor(actorName);
+                actors.add(actor);
+            }
+        }
+        return actors;
+    }
+
+    private Set<Writer> convertToWriterEntities(List<String> writerNames) {
+        Set<Writer> writers = new HashSet<>();
+        if (writerNames != null) {
+            for (String writerName : writerNames) {
+                Writer writer = writerService.findOrCreateWriter(writerName);
+                writers.add(writer);
+            }
+        }
+        return writers;
     }
 }
+
