@@ -47,9 +47,10 @@ public class MovieController {
             @RequestParam(value = "actor", required = false) String actor,
             @RequestParam(value = "director", required = false) String director,
             @RequestParam(value = "writer", required = false) String writer,
+            @RequestParam(value = "genre", required = false) String genre,
             @RequestParam(value = "minPrice", required = false) Double minPrice,
             @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
-        Page<MovieDTO> moviePage = movieService.findAllMovies(pageable, title, actor, director, writer, minPrice, maxPrice);
+        Page<MovieDTO> moviePage = movieService.findAllMovies(pageable, title, actor, director, writer, genre, minPrice, maxPrice);
         return ResponseEntity.ok(new PageRes<>(moviePage));
     }
 

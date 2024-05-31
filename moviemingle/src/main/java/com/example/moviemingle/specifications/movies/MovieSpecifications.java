@@ -1,9 +1,6 @@
 package com.example.moviemingle.specifications.movies;
 
-import com.example.moviemingle.entities.Director;
-import com.example.moviemingle.entities.Movie;
-import com.example.moviemingle.entities.Actor;
-import com.example.moviemingle.entities.Writer;
+import com.example.moviemingle.entities.*;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -37,6 +34,13 @@ public class MovieSpecifications {
             Join<Movie, Writer> writerJoin = root.join("writers");
             String searchString = "%" + writerName.toLowerCase() + "%";
             return criteriaBuilder.like(criteriaBuilder.lower(writerJoin.get("writerName")), searchString);
+        };
+    }
+
+    public static Specification<Movie> genreEqualsIgnoreCase(String genreName) {
+        return (root, query, criteriaBuilder) -> {
+            Join<Movie, Genre> genreJoin = root.join("genres");
+            return criteriaBuilder.equal(criteriaBuilder.lower(genreJoin.get("genreName")), genreName.toLowerCase());
         };
     }
 
