@@ -1,6 +1,7 @@
 package com.example.moviemingle.services.actors;
 
 import com.example.moviemingle.entities.Actor;
+import com.example.moviemingle.models.pages.PageRes;
 import com.example.moviemingle.repositories.ActorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -16,9 +17,9 @@ public class ActorServiceImpl implements ActorService {
     private ActorRepository actorRepository;
 
     @Override
-    public Page<Actor> findAllActors(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return actorRepository.findAll(pageable);
+    public Page<Actor> findAllActors(Pageable pageable) {
+        Page<Actor> actors = actorRepository.findAll(pageable);
+        return actors;
     }
 
     @Override

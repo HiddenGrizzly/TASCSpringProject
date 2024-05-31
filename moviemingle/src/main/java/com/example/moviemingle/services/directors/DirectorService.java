@@ -8,7 +8,7 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface DirectorService {
-    public Page<Director> findAllDirectors(int page, int size);
+    Page<Director> findAllDirectors(Pageable pageable);
 
     public Director findDirectorById(Long id);
 
