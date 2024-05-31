@@ -1,5 +1,6 @@
 <div class="divide-y-2 divide-slate-200">
   <p class="text-6xl mb-5">Movies</p>
+  <button class="btn btn-primary my-5" routerLink="/admin/movies/add">Create</button>
   <div class="overflow-x-auto">
       <table class="table">
           <thead>
@@ -18,7 +19,7 @@
                   <td>{{movie.movieTitle}}</td>
                   <td>{{movie.released}}</td>
                   <td>{{movie.awards}}</td>
-                  <td>{{movie.price}}</td>
+                  <td>{{movie.price | currency}}</td>
                   <td>
                       <button class="btn mr-5" routerLink="/admin/movie/{{movie.id}}">Detail</button>
                   </td>

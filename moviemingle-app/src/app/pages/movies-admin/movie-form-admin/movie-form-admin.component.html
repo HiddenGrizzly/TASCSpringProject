@@ -1,93 +1,55 @@
-<section class="flex flex-col h-screen justify-center items-center">
-  <div class="m-auto w-1/4">
-      <div class="rounded-lg border border-stroke bg-white shadow-default">
+
+
+
           <div class="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-              <h3 class="font-medium text-2xl text-black dark:text-white text-center">
+              <h3 class="font-medium text-2xl text-black dark:text-white">
                   Add new movie
               </h3>
           </div>
-          <form autocomplete="off" novalidate [formGroup]="registerForm" (submit)="onSubmit()">
+          <form autocomplete="off" novalidate [formGroup]="movieForm" (submit)="onSubmit()">
               <div class="p-6.5">
-                  <!-- firstname -->
+                  <!-- title -->
                   <div class="mb-4.5">
                       <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                          First Name
+                          Movie title
                       </label>
-                      <input type="text" placeholder="Enter your first name" formControlName="firstName"
-                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
-                      <div *ngIf="registerForm.get('firstName')?.invalid && (registerForm.get('firstName')?.dirty || registerForm.get('firstName')?.touched)"
+                      <input type="text" placeholder="Enter movie title" formControlName="title"
+                          class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="movieForm.get('title')?.invalid && (movieForm.get('title')?.dirty || movieForm.get('title')?.touched)"
                           class="text-red-700">
-                          Please enter a valid first name!
+                          Please enter a valid movie title!
                       </div>
                   </div>
-                  <!-- lastname -->
+                  <!-- price -->
                   <div class="mb-4.5">
                       <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                          Last Name
+                          Price (&dollar;)
                       </label>
-                      <input type="text" placeholder="Enter your last name" formControlName="lastName"
-                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
-                      <div *ngIf="registerForm.get('lastName')?.invalid && (registerForm.get('lastName')?.dirty || registerForm.get('lastName')?.touched)"
+                      <input type="number" min="0" step="0.1" placeholder="Enter movie price" formControlName="price"
+                          class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="movieForm.get('price')?.invalid && (movieForm.get('price')?.dirty || movieForm.get('price')?.touched)"
                           class="text-red-700">
-                          Please enter a valid last name!
+                          Please enter a valid price!
                       </div>
                   </div>
-                  <!-- username -->
+                  <!-- trailer -->
                   <div class="mb-4.5">
                       <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                          Username
+                          Trailer
                       </label>
-                      <input type="text" placeholder="Enter your username" formControlName="username"
-                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
-                      <div *ngIf="registerForm.get('username')?.invalid && (registerForm.get('username')?.dirty || registerForm.get('username')?.touched)"
+                      <input type="text" placeholder="Enter trailer link" formControlName="trailer"
+                          class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="movieForm.get('trailer')?.invalid && (movieForm.get('trailer')?.dirty || movieForm.get('trailer')?.touched)"
                           class="text-red-700">
-                          Please enter a valid username!
+                          Please enter a valid trailer url!
                       </div>
                   </div>
-                  <!-- email -->
-                  <div class="mb-4.5">
-                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                          Email
-                      </label>
-                      <input type="email" placeholder="Enter your email address" formControlName="email"
-                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
-                      <div *ngIf="registerForm.get('email')?.invalid && (registerForm.get('email')?.dirty || registerForm.get('email')?.touched)"
-                          class="text-red-700">
-                          Please enter a valid email!
-                      </div>
-                  </div>
-                  <!-- password -->
-                  <div class="mb-4.5">
-                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                          Password
-                      </label>
-                      <input type="password" placeholder="Enter password" formControlName="password"
-                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
-                      <div *ngIf="registerForm.get('password')?.invalid && (registerForm.get('password')?.dirty || registerForm.get('password')?.touched)"
-                          class="text-red-700">
-                          Please enter a valid password!
-                      </div>
-                  </div>
-                  <!-- password retype -->
-                  <div class="mb-5.5">
-                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
-                          Re-type Password
-                      </label>
-                      <input type="password" placeholder="Re-enter password" formControlName="reTypePassword"
-                          class="w-full rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
-                      <div *ngIf="registerForm.get('reTypePassword')?.invalid && (registerForm.get('reTypePassword')?.dirty || registerForm.get('reTypePassword')?.touched)"
-                          class="text-red-700">
-                          Please retype a valid password!
-                      </div>
-                  </div>
-                  <!-- register button -->
+                  <!-- movie button -->
                   <button
-                      class="flex w-full justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
-                      type="submit" [disabled]="registerForm.invalid">
-                      Register
+                      class="flex justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+                      type="submit" [disabled]="movieForm.invalid">
+                      Save
                   </button>
               </div>
           </form>
-      </div>
-  </div>
-</section>
+
