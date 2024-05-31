@@ -13,7 +13,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { BaseInterceptor } from './interceptors/base.interceptor';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -34,6 +34,9 @@ import { MovieDetailAdminComponent } from './pages/movies-admin/movie-detail-adm
 import { UserAdminComponent } from './pages/user-admin/user-admin.component';
 import { OrderComponent } from './pages/order/order.component';
 import { OrderdetailComponent } from './pages/orderdetail/orderdetail.component';
+import { MovieFormUpdateAdminComponent } from './pages/movies-admin/movie-form-update-admin/movie-form-update-admin.component';
+import { ToastrModule } from 'ngx-toastr';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -63,13 +66,15 @@ import { OrderdetailComponent } from './pages/orderdetail/orderdetail.component'
     MovieDetailAdminComponent,
     UserMovieComponent,
     OrderComponent,
-    OrderdetailComponent
+    OrderdetailComponent,
+    MovieFormUpdateAdminComponent,
   ],
   imports: [
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
     NgToastModule,
+    FormsModule,
     ReactiveFormsModule,
     JwtModule.forRoot({
       config: {

@@ -20,15 +20,15 @@ getAllMovies(page: PageReq | null): Observable<any> {
   });
 }
 
-getMovie(id: string): Observable<MovieRes> {
-  return this.http.get<MovieRes>(`${this.apiUrl}/${id}`);
+getMovie(id: number): Observable<MovieDto> {
+  return this.http.get<MovieDto>(`${this.apiUrl}/${id}`);
 }
 
 addMovie(movie: MovieDto): Observable<MovieDto> {
   return this.http.post<MovieDto>(`${this.apiUrl}/omdb`, movie);
 }
 
-updateMovie(movie: MovieDto): Observable<MovieDto> {
+updateMovie(id:number,movie: MovieDto): Observable<MovieDto> {
   return this.http.put<MovieDto>(`${this.apiUrl}/${movie.id}`, movie);
 }
 
