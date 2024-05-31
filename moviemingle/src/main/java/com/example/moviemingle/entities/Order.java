@@ -2,6 +2,7 @@ package com.example.moviemingle.entities;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.Fetch;
 
 import java.time.LocalDateTime;
 import java.util.Set;
@@ -18,7 +19,7 @@ public class Order extends BaseEntity{
     @JoinColumn(name = "user_id", nullable = false)
     private User user;
 
-    @OneToOne(cascade = CascadeType.REMOVE, orphanRemoval = true)
+    @OneToOne(cascade = CascadeType.ALL, orphanRemoval = true)
     @JoinColumn(name = "payment_id")
     private Payment payment;
 
@@ -26,5 +27,14 @@ public class Order extends BaseEntity{
     private Set<OrderDetail> orderDetails;
 
     private String orderStatus;
-    
+
+    private Double totalPrice;
+    public void setTotalPrice() {
+        if (orderDetails != null && !orderDetails.isEmpty()) {
+            this.totalPrice = orderDetails.stream().filter(orderDetail -> orderDetail.getOrder().getId().equals(this.getId()))
+                    .mapToDouble(OrderDetail::getPurchasePrice).sum();
+        } else {
+            this.totalPrice = 0.0;
+        }
+    }
 }
