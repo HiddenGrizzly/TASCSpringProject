@@ -10,15 +10,15 @@ import org.springframework.stereotype.Service;
 
 @Service
 public interface GenreService {
-    public Page<Genre> findAllGenres(int page, int size);
+    Page<Genre> findAllGenres(Pageable pageable);
 
-    public Genre findGenreById(Long id);
+    Genre findGenreById(Long id);
 
-    public Genre saveGenre(String genreName);
+    Genre saveGenre(String genreName);
 
     Genre updateGenre(Long id, String genreName);
 
-    public void deleteGenre(Long id);
+    void deleteGenre(Long id);
 
     Genre findOrCreateGenre(String genreName);
 }

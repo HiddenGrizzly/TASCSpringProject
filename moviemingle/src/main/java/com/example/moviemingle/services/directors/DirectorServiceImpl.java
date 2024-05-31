@@ -4,7 +4,6 @@ import com.example.moviemingle.entities.Director;
 import com.example.moviemingle.repositories.DirectorRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
-import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
@@ -16,9 +15,9 @@ public class DirectorServiceImpl implements DirectorService {
     private DirectorRepository directorRepository;
 
     @Override
-    public Page<Director> findAllDirectors(int page, int size) {
-        Pageable pageable = PageRequest.of(page, size);
-        return directorRepository.findAll(pageable);
+    public Page<Director> findAllDirectors(Pageable pageable) {
+        Page<Director> directors = directorRepository.findAll(pageable);
+        return directors;
     }
 
     @Override

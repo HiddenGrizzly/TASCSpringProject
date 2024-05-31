@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
+import { MovieDto } from 'src/app/models/movies/MovieDto';
 import { MovieRes } from 'src/app/models/movies/MovieRes';
 import { ModalService } from 'src/app/services/modal/modal.service';
 import { MovieService } from 'src/app/services/movie/movie.service';
@@ -11,8 +12,7 @@ import { MovieService } from 'src/app/services/movie/movie.service';
 })
 export class MovieDetailAdminComponent implements OnInit {
 
-  movie?: MovieRes;
-
+  movie?: MovieDto;
 
   constructor(
     private movieService: MovieService,

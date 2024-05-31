@@ -24,17 +24,17 @@ export class MovieService {
     return this.http.get<MovieRes>(`${this.apiUrl}/${id}`);
   }
 
-  addMovie(movie: MovieDto): Observable<MovieDto> {
-    return this.http.post<MovieDto>(`${this.apiUrl}/omdb`, movie);
-  }
+addMovie(movie: MovieDto): Observable<MovieDto> {
+  return this.http.post<MovieDto>(`${this.apiUrl}/omdb`, movie);
+}
 
-  updateMovie(movie: MovieDto): Observable<MovieDto> {
-    return this.http.put<MovieDto>(`${this.apiUrl}/${movie.id}`, movie);
-  }
+updateMovie(movie: MovieDto): Observable<MovieDto> {
+  return this.http.put<MovieDto>(`${this.apiUrl}/${movie.id}`, movie);
+}
 
-  deleteMovie(id: string): Observable<void> {
-    return this.http.delete<void>(`${this.apiUrl}/${id}`);
-  }
+deleteMovie(id: number): Observable<void> {
+  return this.http.delete<void>(`${this.apiUrl}/${id}`);
+}
 
   getById(id: number): Observable<any> {
     return this.http.get(`${this.apiUrl}/${id}`);

@@ -1,33 +1,33 @@
 export interface MovieDto {
-  id?: number;
+    id?: number;
 
-  movieTitle: string;
+    movieTitle: string;
 
-  year: string;
+    year: string;
 
-  imdbId: string;
+    imdbId: string;
 
-  rated: string;
+    rated: string;
 
-  released: string;
+    released: string;
 
-  runtime: string;
+    runtime: string;
 
-  plot: string;
+    plot: string;
 
-  awards: string;
+    awards: string;
 
-  poster: string;
+    poster: string;
 
-  trailer: string;
+    trailer: string;
 
-  price: number;
+    price: number;
 
-  writers: Set<string>;
+    writers: Set<string>;
 
-  actors: Set<string>;
+    actors: Set<string>;
 
-  directors: Set<string>;
+    directors: Set<string>;
 
-  genres: Set<string>;
-}
+    genres: Set<string>;
+  }

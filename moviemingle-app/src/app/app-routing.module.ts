@@ -21,6 +21,7 @@ import { MovieListComponent } from './pages/movies/movie-list/movie-list.compone
 import { MovieDetailComponent } from './pages/movie-detail/movie-detail.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { PageNotfoundComponent } from './pages/page-notfound/page-notfound.component';
+import { MovieFormUpdateAdminComponent } from './pages/movies-admin/movie-form-update-admin/movie-form-update-admin.component';
 
 const routes: Routes = [
   {
@@ -96,11 +97,15 @@ const routes: Routes = [
           },
           {
             path: 'edit/:id',
-            component: MovieFormAdminComponent
+            component: MovieFormUpdateAdminComponent
           },
           {
             path: ':id',
             component: MovieDetailAdminComponent
+          },
+          {
+            path: 'delete/:id',
+            component: MovieListAdminComponent
           }
         ]
       },
