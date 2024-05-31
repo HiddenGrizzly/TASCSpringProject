@@ -17,7 +17,6 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
-import { UserAdminComponent } from './pages/user-admin/user-admin.component'; // Add this line
 import { UserDetailComponent } from './pages/user-detail/user-detail.component';
 import { PaginationComponent } from './components/pagination/pagination.component';
 import { GoBackBtnComponent } from './components/go-back-btn/go-back-btn.component';
@@ -29,6 +28,10 @@ import { ModalComponent } from './components/modal/modal.component';
 import { ChangePasswordFormComponent } from './components/change-password-form/change-password-form.component';
 import { PaymentResultComponent } from './pages/payment-result/payment-result.component';
 import { UserMovieComponent } from './pages/user-movie/user-movie.component';
+import { MovieListAdminComponent } from './pages/movies-admin/movie-list-admin/movie-list-admin.component';
+import { MovieFormAdminComponent } from './pages/movies-admin/movie-form-admin/movie-form-admin.component';
+import { MovieDetailAdminComponent } from './pages/movies-admin/movie-detail-admin/movie-detail-admin.component';
+import { UserAdminComponent } from './pages/user-admin/user-admin.component';
 import { OrderComponent } from './pages/order/order.component';
 import { OrderdetailComponent } from './pages/orderdetail/orderdetail.component';
 
@@ -54,6 +57,10 @@ import { OrderdetailComponent } from './pages/orderdetail/orderdetail.component'
     ModalComponent,
     ChangePasswordFormComponent,
     PaymentResultComponent,
+    UserMovieComponent,
+    MovieListAdminComponent,
+    MovieFormAdminComponent,
+    MovieDetailAdminComponent
     UserMovieComponent,
     OrderComponent,
     OrderdetailComponent

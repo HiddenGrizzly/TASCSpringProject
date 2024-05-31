@@ -1,0 +1,55 @@
+
+
+
+          <div class="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
+              <h3 class="font-medium text-2xl text-black dark:text-white">
+                  Add new movie
+              </h3>
+          </div>
+          <form autocomplete="off" novalidate [formGroup]="movieForm" (submit)="onSubmit()">
+              <div class="p-6.5">
+                  <!-- title -->
+                  <div class="mb-4.5">
+                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                          Movie title
+                      </label>
+                      <input type="text" placeholder="Enter movie title" formControlName="title"
+                          class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="movieForm.get('title')?.invalid && (movieForm.get('title')?.dirty || movieForm.get('title')?.touched)"
+                          class="text-red-700">
+                          Please enter a valid movie title!
+                      </div>
+                  </div>
+                  <!-- price -->
+                  <div class="mb-4.5">
+                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                          Price (&dollar;)
+                      </label>
+                      <input type="number" min="0" step="0.1" placeholder="Enter movie price" formControlName="price"
+                          class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="movieForm.get('price')?.invalid && (movieForm.get('price')?.dirty || movieForm.get('price')?.touched)"
+                          class="text-red-700">
+                          Please enter a valid price!
+                      </div>
+                  </div>
+                  <!-- trailer -->
+                  <div class="mb-4.5">
+                      <label class="mb-3 block text-sm font-medium text-black dark:text-white">
+                          Trailer
+                      </label>
+                      <input type="text" placeholder="Enter trailer link" formControlName="trailer"
+                          class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
+                      <div *ngIf="movieForm.get('trailer')?.invalid && (movieForm.get('trailer')?.dirty || movieForm.get('trailer')?.touched)"
+                          class="text-red-700">
+                          Please enter a valid trailer url!
+                      </div>
+                  </div>
+                  <!-- movie button -->
+                  <button
+                      class="flex justify-center rounded bg-primary p-3 font-medium text-gray hover:bg-opacity-90"
+                      type="submit" [disabled]="movieForm.invalid">
+                      Save
+                  </button>
+              </div>
+          </form>
+
