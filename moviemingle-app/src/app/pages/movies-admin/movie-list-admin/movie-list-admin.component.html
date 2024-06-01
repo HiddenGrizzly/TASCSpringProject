@@ -22,7 +22,7 @@
                   <td>{{movie.price | currency}}</td>
                   <td>
                       <button class="btn mr-2" routerLink="/admin/movies/{{movie.id}}">Detail</button>
-                      <button class="btn mr-2" routerLink="/admin/movies/{{movie.id}}">Edit</button>
+                      <button class="btn mr-2" routerLink="/admin/movies/update/{{movie.id}}">Edit</button>
                       <button class="btn mr-2" (click)="onDelete(movie.id)">Delete</button>
                   </td>
               </tr>

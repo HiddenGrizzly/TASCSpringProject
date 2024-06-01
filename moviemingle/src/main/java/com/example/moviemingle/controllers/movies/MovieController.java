@@ -96,7 +96,7 @@ public class MovieController {
             @ApiResponse(responseCode = "404", description = "Không tìm thấy"),
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ")
     })
-    @PutMapping("/{id}")
+    @PutMapping("update/{id}")
     public ResponseEntity<MovieDTO> updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO) {
         MovieDTO updatedMovie = movieService.updateMovie(id, movieDTO);
         if (updatedMovie == null) {
