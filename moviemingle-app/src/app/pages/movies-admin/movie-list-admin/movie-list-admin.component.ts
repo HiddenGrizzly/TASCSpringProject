@@ -33,14 +33,10 @@ export class MovieListAdminComponent implements OnInit {
           page: Number(params['page']),
           size: Number(params['size'])
         };
-      } else {
-        this.pageReq = {
-          page: 1,
-          size: 10
-        };
       }
 
       this.movieService.getAllMovies(this.pageReq).subscribe(res => {
+        console.log(res);
         this.pageInfo = new PageInfo(res);
         this.movies = res.content;
       });
