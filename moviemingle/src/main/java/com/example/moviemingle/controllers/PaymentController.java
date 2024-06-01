@@ -1,10 +1,11 @@
 package com.example.moviemingle.controllers;
 
-import com.example.moviemingle.entities.Movie;
-import com.example.moviemingle.entities.Order;
-import com.example.moviemingle.entities.OrderDetail;
-import com.example.moviemingle.entities.User;
+import com.example.moviemingle.dtos.order.OrderUpdateStatusDTO;
+import com.example.moviemingle.entities.*;
+import com.example.moviemingle.services.orders.OrderService;
 import com.example.moviemingle.services.payments.PaymentGatewayService;
+import com.example.moviemingle.services.payments.PaymentService;
+import com.example.moviemingle.services.userMovies.UserMovieService;
 import com.stripe.exception.StripeException;
 import com.stripe.model.checkout.Session;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,26 +28,41 @@ public class PaymentController {
     @Value("${frontend.base-url}")
     private String frontendUrl;
     
+    @Autowired
+    private OrderService orderService;
+    
+    @Autowired
+    private PaymentService paymentService;
+    
+    @Autowired
+    private UserMovieService userMovieService;
+    
     @GetMapping("stripe/success")
     public ResponseEntity<Void> paymentResult(@RequestParam("session_id") String sessionId) throws StripeException {
         Session session = Session.retrieve(sessionId);
         String status = session.getStatus();
         String redirectUrl = "";
-        String orderId = session.getClientReferenceId();
+        Long orderId = Long.parseLong(session.getClientReferenceId());
         // handle order and payment status update here
-        
+        Order order = orderService.getById(orderId);
         switch(status){
             case "complete" -> {
                 redirectUrl = frontendUrl+"/payment?status=complete";
+                orderService.updateOrderStatus(orderId, new OrderUpdateStatusDTO(OrderStatus.COMPLETED.name()));
+                paymentService.updatePaymentStatus(orderId, PaymentStatus.COMPLETE.ordinal());
+                userMovieService.createUserMovie(order);
             }
             case "expired" -> {
                 redirectUrl = frontendUrl+"/payment?status=expired";
+                orderService.updateOrderStatus(orderId, new OrderUpdateStatusDTO(OrderStatus.CANCELLED.name()));
+                paymentService.updatePaymentStatus(orderId, PaymentStatus.EXPIRED.ordinal());
             }
             case "open" -> {
                 redirectUrl = frontendUrl+"/payment?status=open";
             }
             default -> {
                 redirectUrl = frontendUrl+"/payment?status=error";
+                paymentService.updatePaymentStatus(orderId, PaymentStatus.ERROR.ordinal());
             }
         }
         return ResponseEntity
@@ -58,7 +74,6 @@ public class PaymentController {
     @GetMapping("stripe/cancel")
     public ResponseEntity<Void> cancelPayment(){
         // handle order and payment update here
-        
         return ResponseEntity
                 .status(HttpStatus.SEE_OTHER)
                 .location(URI.create(frontendUrl+"/payment?status=cancel"))

@@ -17,6 +17,10 @@ import { MovieDetailAdminComponent } from './pages/movies-admin/movie-detail-adm
 import { UserAdminComponent } from './pages/user-admin/user-admin.component';
 import { OrderComponent } from './pages/order/order.component';
 import { OrderdetailComponent } from './pages/orderdetail/orderdetail.component';
+import { MovieListComponent } from './pages/movies/movie-list/movie-list.component';
+import { MovieDetailComponent } from './pages/movie-detail/movie-detail.component';
+import { CartComponent } from './pages/cart/cart.component';
+import { PageNotfoundComponent } from './pages/page-notfound/page-notfound.component';
 import { MovieFormUpdateAdminComponent } from './pages/movies-admin/movie-form-update-admin/movie-form-update-admin.component';
 
 const routes: Routes = [
@@ -25,8 +29,16 @@ const routes: Routes = [
     component: PublicLayoutComponent,
     children: [
       {
-        path: 'home',
-        component: HomeComponent
+        path: '',
+        redirectTo: 'movies', pathMatch: 'full'
+      },
+      {
+        path: 'movies',
+        component: MovieListComponent
+      },
+      {
+        path: 'movies/:id',
+        component: MovieDetailComponent
       },
       {
         path: 'user',
@@ -41,6 +53,10 @@ const routes: Routes = [
           {
             path: 'movies',
             component: UserMovieComponent
+          },
+          {
+            path: 'cart',
+            component: CartComponent
           }
         ]
       },
@@ -57,11 +73,15 @@ const routes: Routes = [
     data: { roles: ['ADMIN'] },
     children: [
       {
-        path: 'user',
+        path: '',
+        redirectTo: 'users', pathMatch: 'full'
+      },
+      {
+        path: 'users',
         component: UserAdminComponent,
       },
       {
-        path: 'user/:id',
+        path: 'users/:id',
         component: UserDetailComponent
       },
       {
@@ -90,11 +110,11 @@ const routes: Routes = [
         ]
       },
       {
-        path: 'order',
+        path: 'orders',
         component: OrderComponent
       },
       {
-        path: 'order/:id',
+        path: 'orders/:id',
         component: OrderdetailComponent
       }
     ]
@@ -106,7 +126,11 @@ const routes: Routes = [
   {
     path: 'login',
     component: LoginComponent
-  }
+  },
+  {
+    path: '**', pathMatch: 'full',
+    component: PageNotfoundComponent
+  },
 ];
 
 @NgModule({

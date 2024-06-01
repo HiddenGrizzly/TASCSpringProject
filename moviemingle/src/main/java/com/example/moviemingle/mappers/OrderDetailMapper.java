@@ -2,15 +2,11 @@ package com.example.moviemingle.mappers;
 
 import com.example.moviemingle.dtos.order.OrderDetailDTO;
 import com.example.moviemingle.entities.OrderDetail;
-import org.mapstruct.Mapper;
-import org.mapstruct.Mapping;
-import org.mapstruct.Mappings;
+import org.mapstruct.*;
 import org.mapstruct.factory.Mappers;
 
-import java.util.List;
-import java.util.stream.Collectors;
 
-@Mapper(componentModel = "spring")
+@Mapper(componentModel = "spring", unmappedTargetPolicy = ReportingPolicy.IGNORE)
 public interface OrderDetailMapper {
     OrderDetailMapper INSTANCE = Mappers.getMapper(OrderDetailMapper.class);
 
@@ -29,5 +25,5 @@ public interface OrderDetailMapper {
             @Mapping(source = "moviePrice", target = "movie.price")
     })
     OrderDetail orderDetailDTOToOrderDetail(OrderDetailDTO orderDetailDTO);
-
+   
 }

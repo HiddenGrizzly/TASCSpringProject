@@ -1,0 +1,6 @@
+<div class="grid grid-cols-4 gap-5">
+    <div *ngFor="let movie of movies">
+        <app-movie-card [movie]="movie"></app-movie-card>
+    </div>
+</div>
+<app-pagination *ngIf="pageInfo" [pageInfo]="pageInfo"></app-pagination>
