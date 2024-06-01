@@ -41,6 +41,7 @@ import { MovieCardComponent } from './components/movie-card/movie-card.component
 import { MovieDetailComponent } from './pages/movie-detail/movie-detail.component';
 import { CartComponent } from './pages/cart/cart.component';
 import { PageNotfoundComponent } from './pages/page-notfound/page-notfound.component';
+import { MovieFormUpdateAdminComponent } from './pages/movies-admin/movie-form-update-admin/movie-form-update-admin.component';
 
 @NgModule({
   declarations: [
@@ -77,7 +78,8 @@ import { PageNotfoundComponent } from './pages/page-notfound/page-notfound.compo
     MovieCardComponent,
     MovieDetailComponent,
     CartComponent,
-    PageNotfoundComponent
+    PageNotfoundComponent,
+    MovieFormUpdateAdminComponent
   ],
   imports: [
     BrowserModule,
