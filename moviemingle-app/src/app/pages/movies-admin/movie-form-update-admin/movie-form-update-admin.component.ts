@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MovieDto } from 'src/app/models/movies/MovieDto';
 import { MovieService } from 'src/app/services/movie/movie.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-movie-form-update-admin',
@@ -21,13 +21,6 @@ export class MovieFormUpdateAdminComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    const movieId = this.route.snapshot.paramMap.get('id');
-  if (movieId) {
-    this.loadMovie(+movieId);  // Convert string to number using +
-  } else {
-    console.error('No movie ID provided!');
-    // Optionally navigate away or show an error
-  }
     this.movieUpdateForm = this.fb.group({
       movieTitle: ['', [Validators.required, Validators.minLength(1)]],
       year: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
@@ -48,24 +41,16 @@ export class MovieFormUpdateAdminComponent implements OnInit {
 
     this.route.params.subscribe(params => {
       this.movieId = params['id'];
-      this.loadMovie();
+      if (this.movieId) {
+        this.movieService.getMovie(this.movieId).subscribe(movie => {
+          this.movieUpdateForm.patchValue(movie);
+          this.setFormArray('writers', movie.writers);
+          this.setFormArray('actors', movie.actors);
+          this.setFormArray('directors', movie.directors);
+          this.setFormArray('genres', movie.genres);
+        });
+      }
     });
-  }
-
-  loadMovie(p0?: number): void {
-    this.movieService.getMovie(this.movieId).subscribe(movie => {
-      this.movieUpdateForm.patchValue(movie);
-      this.setFormArray('writers', movie.writers);
-      this.setFormArray('actors', movie.actors);
-      this.setFormArray('directors', movie.directors);
-      this.setFormArray('genres', movie.genres);
-    });
-  }
-
-  setFormArray(key: string, values: Set<string>): void {
-    const formArray = this.movieUpdateForm.get(key) as FormArray;
-    formArray.clear();
-    values.forEach(value => formArray.push(this.fb.control(value, Validators.required)));
   }
 
   get writers(): FormArray {
@@ -82,6 +67,12 @@ export class MovieFormUpdateAdminComponent implements OnInit {
 
   get genres(): FormArray {
     return this.movieUpdateForm.get('genres') as FormArray;
+  }
+
+  setFormArray(controlName: string, values: Set<string>): void {
+    const formArray = this.movieUpdateForm.get(controlName) as FormArray;
+    formArray.clear();
+    values.forEach(value => formArray.push(this.fb.control(value, Validators.required)));
   }
 
   addWriter(): void {
@@ -121,20 +112,29 @@ export class MovieFormUpdateAdminComponent implements OnInit {
       const formValue = this.movieUpdateForm.value;
       const updatedMovie: MovieDto = {
         ...formValue,
-        writers: new Set(formValue.writers),
-        actors: new Set(formValue.actors),
-        directors: new Set(formValue.directors),
-        genres: new Set(formValue.genres)
+        id: this.movieId, 
+        writers: Array.from(formValue.writers),
+        actors: Array.from(formValue.actors),
+        directors: Array.from(formValue.directors),
+        genres: Array.from(formValue.genres)
       };
-      this.movieService.updateMovie(this.movieId, updatedMovie).subscribe(
-        response => {
+  
+      console.log('Updated Movie:', updatedMovie);
+  
+      const observer = {
+        next: (response: any) => {
           console.log('Movie updated successfully:', response);
           this.router.navigate(['/admin/movies']);
         },
-        error => {
+        error: (error: any) => {
           console.error('Error updating movie:', error);
+        },
+        complete: () => {
+          console.log('Update complete');
         }
-      );
+      };
+  
+      this.movieService.updateMovie(updatedMovie).subscribe(observer);
     }
-  }
+  }  
 }

@@ -9,20 +9,22 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 import java.util.Arrays;
-import java.util.List;
+import java.util.HashSet;
+import java.util.Set;
 
 @Component
-public class CommaSeparatedStringToListDeserializer extends JsonDeserializer<List<String>> {
+public class CommaSeparatedStringToListDeserializer extends JsonDeserializer<Set<String>> {
 
     @Override
-    public List<String> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
+    public Set<String> deserialize(JsonParser p, DeserializationContext ctxt) throws IOException, JsonProcessingException {
         String value = p.getValueAsString();
-        return Arrays.asList(value.split(",\\s*"));
+        String[] items = value.split(",\\s*");
+        return new HashSet<>(Arrays.asList(items));
     }
 
-    public static SimpleModule getModule() {
+    public SimpleModule customDeserializationModule() {
         SimpleModule module = new SimpleModule();
-        module.addDeserializer(List.class, new CommaSeparatedStringToListDeserializer());
+        module.addDeserializer(Set.class, new CommaSeparatedStringToListDeserializer());
         return module;
     }
 }

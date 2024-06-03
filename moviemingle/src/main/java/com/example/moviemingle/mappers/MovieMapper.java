@@ -1,6 +1,5 @@
 package com.example.moviemingle.mappers;
 
-import com.example.moviemingle.dtos.movies.MovieCreateDTO;
 import com.example.moviemingle.dtos.movies.MovieDTO;
 import com.example.moviemingle.dtos.movies.MovieOmdbDTO;
 import com.example.moviemingle.entities.Actor;
@@ -16,7 +15,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 import java.util.HashSet;
-import java.util.List;
 import java.util.Set;
 import java.util.stream.Collectors;
 
@@ -65,7 +63,6 @@ public class MovieMapper {
         if (movieDTO == null) {
             return null;
         }
-
         Movie movie = new Movie();
         movie.setId(movieDTO.getId());
         movie.setMovieTitle(movieDTO.getMovieTitle());
@@ -82,7 +79,6 @@ public class MovieMapper {
         movie.setDirectors(convertStringSetToDirectorSet(movieDTO.getDirectors()));
         movie.setWriters(convertStringSetToWriterSet(movieDTO.getWriters()));
         movie.setGenres(convertStringSetToGenreSet(movieDTO.getGenres()));
-
         return movie;
     }
 
@@ -125,7 +121,6 @@ public class MovieMapper {
         movie.setPlot(movieOmdbDTO.getPlot());
         movie.setAwards(movieOmdbDTO.getAwards());
         movie.setPoster(movieOmdbDTO.getPoster());
-        // Trailer and price are not provided in the DTO
         movie.setTrailer(null);
         movie.setPrice(null);
 
@@ -144,7 +139,7 @@ public class MovieMapper {
         return movie;
     }
 
-    private Set<Genre> convertToGenreEntities(List<String> genreNames) {
+    private Set<Genre> convertToGenreEntities(Set<String> genreNames) {
         Set<Genre> genres = new HashSet<>();
         if (genreNames != null) {
             for (String genreName : genreNames) {
@@ -155,7 +150,7 @@ public class MovieMapper {
         return genres;
     }
 
-    private Set<Director> convertToDirectorEntities(List<String> directorNames) {
+    private Set<Director> convertToDirectorEntities(Set<String> directorNames) {
         Set<Director> directors = new HashSet<>();
         if (directorNames != null) {
             for (String directorName : directorNames) {
@@ -166,7 +161,7 @@ public class MovieMapper {
         return directors;
     }
 
-    private Set<Actor> convertToActorEntities(List<String> actorNames) {
+    private Set<Actor> convertToActorEntities(Set<String> actorNames) {
         Set<Actor> actors = new HashSet<>();
         if (actorNames != null) {
             for (String actorName : actorNames) {
@@ -177,7 +172,7 @@ public class MovieMapper {
         return actors;
     }
 
-    private Set<Writer> convertToWriterEntities(List<String> writerNames) {
+    private Set<Writer> convertToWriterEntities(Set<String> writerNames) {
         Set<Writer> writers = new HashSet<>();
         if (writerNames != null) {
             for (String writerName : writerNames) {

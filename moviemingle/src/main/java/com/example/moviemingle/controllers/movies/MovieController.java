@@ -47,9 +47,10 @@ public class MovieController {
             @RequestParam(value = "actor", required = false) String actor,
             @RequestParam(value = "director", required = false) String director,
             @RequestParam(value = "writer", required = false) String writer,
+            @RequestParam(value = "genre", required = false) String genre,
             @RequestParam(value = "minPrice", required = false) Double minPrice,
             @RequestParam(value = "maxPrice", required = false) Double maxPrice) {
-        Page<MovieDTO> moviePage = movieService.findAllMovies(pageable, title, actor, director, writer, minPrice, maxPrice);
+        Page<MovieDTO> moviePage = movieService.findAllMovies(pageable, title, actor, director, writer, genre, minPrice, maxPrice);
         return ResponseEntity.ok(new PageRes<>(moviePage));
     }
 
@@ -97,12 +98,9 @@ public class MovieController {
             @ApiResponse(responseCode = "500", description = "Lỗi máy chủ")
     })
     @PutMapping("update/{id}")
-    public ResponseEntity<MovieDTO> updateMovie(@PathVariable Long id, @RequestBody MovieDTO movieDTO) {
-        MovieDTO updatedMovie = movieService.updateMovie(id, movieDTO);
-        if (updatedMovie == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(updatedMovie);
+    public ResponseEntity<MovieDTO> updateMovie(@PathVariable Long id, @RequestBody @Valid MovieDTO movieDTO) {
+        movieService.updateMovie(id, movieDTO);
+        return ResponseEntity.ok(movieService.updateMovie(id, movieDTO));
     }
 
     // Phương thức xóa một bộ phim dựa trên ID

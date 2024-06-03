@@ -10,6 +10,7 @@ import lombok.Setter;
 
 import java.time.LocalDate;
 import java.util.List;
+import java.util.Set;
 
 
 @Getter
@@ -45,49 +46,22 @@ public class MovieOmdbDTO {
     @JsonProperty("Poster")
     private String poster;
 
-    @JsonProperty("Genre")
+    @JsonProperty("Genres")
     @CommaSeparatedStringToList
-    private List<String> genres;
+    private Set<String> genres;
 
-    @JsonProperty("Director")
+    @JsonProperty("Directors")
     @CommaSeparatedStringToList
-    private List<String> directors;
+    private Set<String> directors;
 
     @JsonProperty("Actors")
     @CommaSeparatedStringToList
-    private List<String> actors;
+    private Set<String> actors;
 
-    @JsonProperty("Writer")
+    @JsonProperty("Writers")
     @CommaSeparatedStringToList
-    private List<String> writers;
-
-    @JsonProperty("Ratings")
-    private List<RatingDto> ratings;
-
-    @JsonProperty("Language")
-    @CommaSeparatedStringToList
-    private List<String> language;
-
-    @JsonProperty("Country")
-    @CommaSeparatedStringToList
-    private List<String> country;
-
-    @JsonProperty("Metascore")
-    private String metascore;
-
+    private Set<String> writers;
 
     @JsonProperty("Response")
     private Boolean response;
-    // Nested class for Ratings
-    @Getter
-    @Setter
-    @AllArgsConstructor
-    @NoArgsConstructor
-    public static class RatingDto {
-        @JsonProperty("Source")
-        private String source;
-
-        @JsonProperty("Value")
-        private String value;
-    }
 }

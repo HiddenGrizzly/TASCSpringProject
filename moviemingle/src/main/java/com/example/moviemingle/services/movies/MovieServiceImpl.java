@@ -27,7 +27,7 @@ public class MovieServiceImpl implements MovieService {
     private MovieMapper movieMapper;
 
     @Override
-    public Page<MovieDTO> findAllMovies(Pageable pageable, String title, String actor, String director, String writer, Double minPrice, Double maxPrice) {
+    public Page<MovieDTO> findAllMovies(Pageable pageable, String title, String actor, String director, String writer, String genre, Double minPrice, Double maxPrice) {
         Specification<Movie> spec = Specification.where(null);
 
         if (title != null) {
@@ -41,6 +41,9 @@ public class MovieServiceImpl implements MovieService {
         }
         if (writer != null) {
             spec = spec.and(MovieSpecifications.writerContainsIgnoreCase(writer));
+        }
+        if (genre != null) {
+            spec = spec.and(MovieSpecifications.genreContainsIgnoreCase(genre));
         }
         if (minPrice != null && maxPrice != null) {
             spec = spec.and(MovieSpecifications.priceBetween(minPrice, maxPrice));
@@ -69,15 +72,13 @@ public class MovieServiceImpl implements MovieService {
     @Override
     @Transactional
     public MovieDTO updateMovie(Long id, MovieDTO movieDTO) {
-        Optional<Movie> optionalMovie = movieRepository.findById(id);
-        if (optionalMovie.isPresent()) {
-            Movie existingMovie = optionalMovie.get();
-            existingMovie = movieMapper.toEntity(movieDTO);
-            existingMovie = movieRepository.save(existingMovie);
-            return movieMapper.toDto(existingMovie);
-        } else {
-            return null;
+        if (movieRepository.existsById(id)){
+            Movie existMovie = movieMapper.toEntity(movieDTO);
+            existMovie.setId(id);
+            movieRepository.save((existMovie));
+            return movieDTO;
         }
+        return null;
     }
 
     @Override
