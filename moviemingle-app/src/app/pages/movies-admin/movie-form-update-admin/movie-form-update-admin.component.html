@@ -1,5 +1,7 @@
 <div class="border-b border-stroke px-6.5 py-4 dark:border-strokedark">
-  <h3 class="font-medium text-2xl text-black dark:text-white">Update Movie</h3>
+  <h3 class="font-medium text-2xl text-black dark:text-white">
+    Update movie
+  </h3>
 </div>
 <form autocomplete="off" novalidate [formGroup]="movieUpdateForm" (submit)="onSubmit()">
   <div class="p-6.5">
@@ -10,7 +12,7 @@
         class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
       <div *ngIf="movieUpdateForm.get('movieTitle')?.invalid && (movieUpdateForm.get('movieTitle')?.dirty || movieUpdateForm.get('movieTitle')?.touched)" class="text-red-700">Please enter a valid movie title!</div>
     </div>
-    
+
     <!-- Year -->
     <div class="mb-4.5">
       <label class="mb-3 block text-sm font-medium text-black dark:text-white">Year</label>
@@ -18,7 +20,7 @@
         class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
       <div *ngIf="movieUpdateForm.get('year')?.invalid && (movieUpdateForm.get('year')?.dirty || movieUpdateForm.get('year')?.touched)" class="text-red-700">Please enter a valid year!</div>
     </div>
-    
+
     <!-- IMDb ID -->
     <div class="mb-4.5">
       <label class="mb-3 block text-sm font-medium text-black dark:text-white">IMDb ID</label>
@@ -26,7 +28,7 @@
         class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
       <div *ngIf="movieUpdateForm.get('imdbId')?.invalid && (movieUpdateForm.get('imdbId')?.dirty || movieUpdateForm.get('imdbId')?.touched)" class="text-red-700">Please enter a valid IMDb ID!</div>
     </div>
-    
+
     <!-- Rated -->
     <div class="mb-4.5">
       <label class="mb-3 block text-sm font-medium text-black dark:text-white">Rated</label>
@@ -34,7 +36,7 @@
         class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
       <div *ngIf="movieUpdateForm.get('rated')?.invalid && (movieUpdateForm.get('rated')?.dirty || movieUpdateForm.get('rated')?.touched)" class="text-red-700">Please enter a valid rating!</div>
     </div>
-    
+
     <!-- Released -->
     <div class="mb-4.5">
       <label class="mb-3 block text-sm font-medium text-black dark:text-white">Released</label>
@@ -42,7 +44,7 @@
         class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
       <div *ngIf="movieUpdateForm.get('released')?.invalid && (movieUpdateForm.get('released')?.dirty || movieUpdateForm.get('released')?.touched)" class="text-red-700">Please enter a valid release date!</div>
     </div>
-    
+
     <!-- Runtime -->
     <div class="mb-4.5">
       <label class="mb-3 block text-sm font-medium text-black dark:text-white">Runtime</label>
@@ -50,7 +52,7 @@
         class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
       <div *ngIf="movieUpdateForm.get('runtime')?.invalid && (movieUpdateForm.get('runtime')?.dirty || movieUpdateForm.get('runtime')?.touched)" class="text-red-700">Please enter a valid runtime!</div>
     </div>
-    
+
     <!-- Plot -->
     <div class="mb-4.5">
       <label class="mb-3 block text-sm font-medium text-black dark:text-white">Plot</label>
@@ -58,7 +60,7 @@
         class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
       <div *ngIf="movieUpdateForm.get('plot')?.invalid && (movieUpdateForm.get('plot')?.dirty || movieUpdateForm.get('plot')?.touched)" class="text-red-700">Please enter a valid plot!</div>
     </div>
-    
+
     <!-- Awards -->
     <div class="mb-4.5">
       <label class="mb-3 block text-sm font-medium text-black dark:text-white">Awards</label>
@@ -66,7 +68,7 @@
         class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
       <div *ngIf="movieUpdateForm.get('awards')?.invalid && (movieUpdateForm.get('awards')?.dirty || movieUpdateForm.get('awards')?.touched)" class="text-red-700">Please enter a valid awards!</div>
     </div>
-    
+
     <!-- Poster -->
     <div class="mb-4.5">
       <label class="mb-3 block text-sm font-medium text-black dark:text-white">Poster</label>
@@ -74,7 +76,7 @@
         class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
       <div *ngIf="movieUpdateForm.get('poster')?.invalid && (movieUpdateForm.get('poster')?.dirty || movieUpdateForm.get('poster')?.touched)" class="text-red-700">Please enter a valid poster URL!</div>
     </div>
-    
+
     <!-- Trailer -->
     <div class="mb-4.5">
       <label class="mb-3 block text-sm font-medium text-black dark:text-white">Trailer</label>
@@ -82,7 +84,7 @@
         class="rounded border-[1.5px] border-stroke bg-transparent px-5 py-3 font-normal text-black outline-none transition focus:border-primary active:border-primary disabled:cursor-default disabled:bg-whiter dark:border-form-strokedark dark:bg-form-input dark:text-white dark:focus:border-primary">
       <div *ngIf="movieUpdateForm.get('trailer')?.invalid && (movieUpdateForm.get('trailer')?.dirty || movieUpdateForm.get('trailer')?.touched)" class="text-red-700">Please enter a valid trailer URL!</div>
     </div>
-    
+
     <!-- Price -->
     <div class="mb-4.5">
       <label class="mb-3 block text-sm font-medium text-black dark:text-white">Price</label>

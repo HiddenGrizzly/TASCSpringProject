@@ -11,7 +11,7 @@ export class MovieService {
 
   private readonly apiUrl = 'movies';
 
-constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient) { }
 
 getAllMovies(page: PageReq | null, filterParams?: any): Observable<any> {
   let params = new HttpParams();
@@ -46,7 +46,13 @@ deleteMovie(id: number): Observable<void> {
   return this.http.delete<void>(`${this.apiUrl}/${id}`);
 }
 
-getById(id: number): Observable<any> {
-  return this.http.get(`${this.apiUrl}/${id}`);
-}
+  getById(id: number): Observable<any> {
+    return this.http.get(`${this.apiUrl}/${id}`);
+  }
+
+  getMoviesByIds(ids: number[]): Observable<any> {
+    return this.http.get(`${this.apiUrl}/lists`, {
+      params: { ids: ids }
+    })
+  }
 }

@@ -1,10 +1,12 @@
 import { CanActivateFn, Router } from '@angular/router';
 import { AuthService } from '../services/auth/auth.service';
 import { inject } from '@angular/core';
+import { NgToastService } from 'ng-angular-popup';
 
 export const authGuard: CanActivateFn = (route, state) => {
   const authService = inject(AuthService);
   const router = inject(Router);
+  const toast = inject(NgToastService);
 
   const authState = authService.getAuthState();
 
@@ -17,11 +19,9 @@ export const authGuard: CanActivateFn = (route, state) => {
           return true;
         }
       }
-      router.navigateByUrl('/');
-      return false;
     }
-    return true;
   }
-  router.navigateByUrl('/');
+  router.navigateByUrl('/login');
+  toast.info({ detail: 'Please login first!' })
   return false;
 };

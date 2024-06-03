@@ -25,19 +25,6 @@ public class OrderDetail extends BaseEntity {
     private Movie movie;
 
     private Double purchasePrice;
-
-    public void setPurchasePrice() {
-        if (movie != null) {
-            this.purchasePrice = movie.getPrice();
-        }
-    }
-
-    public Double getPurchasePrice() {
-        if (movie != null) {
-            return movie.getPrice();
-        }
-        return 0.0;
-    }
     
 }
 

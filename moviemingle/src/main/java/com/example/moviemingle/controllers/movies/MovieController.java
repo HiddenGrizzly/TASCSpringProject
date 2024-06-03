@@ -20,7 +20,10 @@ import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 @Tag(name = "Movie", description = "Movie controller")
 @RestController
@@ -115,5 +118,10 @@ public class MovieController {
     public ResponseEntity<Void> deleteMovie(@PathVariable Long id) {
         movieService.deleteMovie(id);
         return ResponseEntity.noContent().build();
+    }
+    
+    @GetMapping("lists")
+    public List<MovieDTO> getMoviesByIds(@RequestParam List<Long> ids){
+        return movieService.getMoviesByIds(ids);
     }
 }
