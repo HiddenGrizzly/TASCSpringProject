@@ -13,7 +13,7 @@ import { HomeComponent } from './pages/home/home.component';
 import { SidebarComponent } from './components/sidebar/sidebar.component';
 import { HeaderComponent } from './components/header/header.component';
 import { BaseInterceptor } from './interceptors/base.interceptor';
-import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AuthInterceptor } from './interceptors/auth.interceptor';
 import { NavbarComponent } from './components/navbar/navbar.component';
 import { FooterComponent } from './components/footer/footer.component';
@@ -42,6 +42,8 @@ import { MovieDetailComponent } from './pages/movie-detail/movie-detail.componen
 import { CartComponent } from './pages/cart/cart.component';
 import { PageNotfoundComponent } from './pages/page-notfound/page-notfound.component';
 import { MovieFormUpdateAdminComponent } from './pages/movies-admin/movie-form-update-admin/movie-form-update-admin.component';
+import { ToastrModule } from 'ngx-toastr';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -86,6 +88,7 @@ import { MovieFormUpdateAdminComponent } from './pages/movies-admin/movie-form-u
     AppRoutingModule,
     HttpClientModule,
     NgToastModule,
+    FormsModule,
     ReactiveFormsModule,
     JwtModule.forRoot({
       config: {

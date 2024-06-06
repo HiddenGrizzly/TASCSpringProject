@@ -4,6 +4,7 @@ import com.example.moviemingle.entities.Actor;
 import com.example.moviemingle.entities.Director;
 import com.example.moviemingle.entities.Genre;
 import com.example.moviemingle.entities.Writer;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Size;
@@ -65,14 +66,18 @@ public class MovieDTO {
     private Double price;
 
     @NotNull
+    @JsonProperty("writers")
     private Set<String> writers;
 
     @NotNull
+    @JsonProperty("actors")
     private Set<String> actors;
 
     @NotNull
+    @JsonProperty("directors")
     private Set<String> directors;
 
     @NotNull
+    @JsonProperty("genres")
     private Set<String> genres;
 }

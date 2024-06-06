@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
+import { ActivatedRoute, Router } from '@angular/router';
 import { MovieDto } from 'src/app/models/movies/MovieDto';
 import { MovieService } from 'src/app/services/movie/movie.service';
 
@@ -9,12 +10,18 @@ import { MovieService } from 'src/app/services/movie/movie.service';
   styleUrls: ['./movie-form-update-admin.component.css']
 })
 export class MovieFormUpdateAdminComponent implements OnInit {
-  movieForm!: FormGroup;
+  movieUpdateForm!: FormGroup;
+  movieId!: number;
 
-  constructor(private fb: FormBuilder, private movieService: MovieService) {}
+  constructor(
+    private fb: FormBuilder,
+    private movieService: MovieService,
+    private route: ActivatedRoute,
+    private router: Router
+  ) {}
 
   ngOnInit(): void {
-    this.movieForm = this.fb.group({
+    this.movieUpdateForm = this.fb.group({
       movieTitle: ['', [Validators.required, Validators.minLength(1)]],
       year: ['', [Validators.required, Validators.pattern('^[0-9]{4}$')]],
       imdbId: ['', [Validators.required, Validators.pattern('^tt[0-9]+$')]],
@@ -31,22 +38,41 @@ export class MovieFormUpdateAdminComponent implements OnInit {
       directors: this.fb.array([], [Validators.required]),
       genres: this.fb.array([], [Validators.required])
     });
+
+    this.route.params.subscribe(params => {
+      this.movieId = params['id'];
+      if (this.movieId) {
+        this.movieService.getMovie(this.movieId).subscribe(movie => {
+          this.movieUpdateForm.patchValue(movie);
+          this.setFormArray('writers', movie.writers);
+          this.setFormArray('actors', movie.actors);
+          this.setFormArray('directors', movie.directors);
+          this.setFormArray('genres', movie.genres);
+        });
+      }
+    });
   }
 
   get writers(): FormArray {
-    return this.movieForm.get('writers') as FormArray;
+    return this.movieUpdateForm.get('writers') as FormArray;
   }
 
   get actors(): FormArray {
-    return this.movieForm.get('actors') as FormArray;
+    return this.movieUpdateForm.get('actors') as FormArray;
   }
 
   get directors(): FormArray {
-    return this.movieForm.get('directors') as FormArray;
+    return this.movieUpdateForm.get('directors') as FormArray;
   }
 
   get genres(): FormArray {
-    return this.movieForm.get('genres') as FormArray;
+    return this.movieUpdateForm.get('genres') as FormArray;
+  }
+
+  setFormArray(controlName: string, values: Set<string>): void {
+    const formArray = this.movieUpdateForm.get(controlName) as FormArray;
+    formArray.clear();
+    values.forEach(value => formArray.push(this.fb.control(value, Validators.required)));
   }
 
   addWriter(): void {
@@ -82,24 +108,33 @@ export class MovieFormUpdateAdminComponent implements OnInit {
   }
 
   onSubmit(): void {
-    if (this.movieForm.valid) {
-      const formValue = this.movieForm.value;
+    if (this.movieUpdateForm.valid) {
+      const formValue = this.movieUpdateForm.value;
       const updatedMovie: MovieDto = {
         ...formValue,
-        writers: new Set(formValue.writers),
-        actors: new Set(formValue.actors),
-        directors: new Set(formValue.directors),
-        genres: new Set(formValue.genres)
+        id: this.movieId, 
+        writers: Array.from(formValue.writers),
+        actors: Array.from(formValue.actors),
+        directors: Array.from(formValue.directors),
+        genres: Array.from(formValue.genres)
       };
+  
       console.log('Updated Movie:', updatedMovie);
-      this.movieService.updateMovie(updatedMovie).subscribe(
-        response => {
+  
+      const observer = {
+        next: (response: any) => {
           console.log('Movie updated successfully:', response);
+          this.router.navigate(['/admin/movies']);
         },
-        error => {
+        error: (error: any) => {
           console.error('Error updating movie:', error);
+        },
+        complete: () => {
+          console.log('Update complete');
         }
-      );
+      };
+  
+      this.movieService.updateMovie(updatedMovie).subscribe(observer);
     }
-  }
+  }  
 }

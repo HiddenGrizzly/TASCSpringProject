@@ -1,9 +1,6 @@
 package com.example.moviemingle.specifications.movies;
 
-import com.example.moviemingle.entities.Director;
-import com.example.moviemingle.entities.Movie;
-import com.example.moviemingle.entities.Actor;
-import com.example.moviemingle.entities.Writer;
+import com.example.moviemingle.entities.*;
 import jakarta.persistence.criteria.*;
 import org.springframework.data.jpa.domain.Specification;
 
@@ -40,11 +37,18 @@ public class MovieSpecifications {
         };
     }
 
+    public static Specification<Movie> genreContainsIgnoreCase(String genreName) {
+        return (root, query, criteriaBuilder) -> {
+            Join<Movie, Genre> genreJoin = root.join("genres");
+            String searchString = "%" + genreName.toLowerCase() + "%";
+            return criteriaBuilder.like(criteriaBuilder.lower(genreJoin.get("genreName")), searchString);
+        };
+    }
+
     public static Specification<Movie> priceBetween(Double minPrice, Double maxPrice) {
         return (root, query, criteriaBuilder) -> {
             Path<Double> pricePath = root.get("price");
             return criteriaBuilder.between(pricePath, minPrice, maxPrice);
         };
     }
-
 }

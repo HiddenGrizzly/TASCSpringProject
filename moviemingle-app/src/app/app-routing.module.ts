@@ -96,7 +96,7 @@ const routes: Routes = [
             component: MovieFormAdminComponent
           },
           {
-            path: 'edit/:id',
+            path: 'update/:id',
             component: MovieFormUpdateAdminComponent
           },
           {

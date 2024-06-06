@@ -1,6 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { NgToastService } from 'ng-angular-popup';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MovieRes } from 'src/app/models/movies/MovieRes';
 import { PageInfo } from 'src/app/models/pages/PageInfo';
 import { PageReq } from 'src/app/models/pages/PageReq';
@@ -15,14 +16,25 @@ export class MovieListAdminComponent implements OnInit {
   movies: MovieRes[] = [];
   pageReq: PageReq | null = null;
   pageInfo!: PageInfo;
+  filterForm!: FormGroup;
 
   constructor(
+    private fb: FormBuilder,
     private movieService: MovieService,
     private activedRoute: ActivatedRoute,
     private toast: NgToastService
   ) { }
 
   ngOnInit(): void {
+    this.filterForm = this.fb.group({
+      title: [''],
+      actor: [''],
+      director: [''],
+      writer: [''],
+      genre: [''],
+      minPrice: [''],
+      maxPrice: ['']
+    });
     this.loadMovies();
   }
 
@@ -33,10 +45,16 @@ export class MovieListAdminComponent implements OnInit {
           page: Number(params['page']),
           size: Number(params['size'])
         };
+      } else {
+        this.pageReq = {
+          page: 0,
+          size: 10
+        };
       }
 
-      this.movieService.getAllMovies(this.pageReq).subscribe(res => {
-        console.log(res);
+      const filterParams = this.filterForm.value;
+
+      this.movieService.getAllMovies(this.pageReq, filterParams).subscribe(res => {
         this.pageInfo = new PageInfo(res);
         this.movies = res.content;
       });
@@ -55,5 +73,19 @@ export class MovieListAdminComponent implements OnInit {
         }
       });
     }
+  }
+
+  applyFilters(): void {
+    const filterParams = this.filterForm.value;
+
+    this.movieService.getAllMovies(this.pageReq, filterParams).subscribe(res => {
+      this.pageInfo = new PageInfo(res);
+      this.movies = res.content;
+    });
+  }
+
+  resetFilters(): void {
+    this.filterForm.reset();
+    this.applyFilters();
   }
 }

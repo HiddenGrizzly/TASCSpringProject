@@ -1,33 +1,48 @@
 <div class="divide-y-2 divide-slate-200">
-  <p class="text-6xl mb-5">Movies</p>
-  <button class="btn btn-primary my-5" routerLink="/admin/movies/add">Create</button>
-  <div class="overflow-x-auto">
+    <p class="text-6xl mb-5">Movies</p>
+    <button class="btn btn-primary my-5" routerLink="/admin/movies/add">Create</button>
+    <!-- Filter Form -->
+    <form [formGroup]="filterForm" (ngSubmit)="applyFilters()" class="mb-5">
+      <div class="flex flex-wrap items-center space-x-4 space-y-4">
+        <input type="text" placeholder="Title" formControlName="title" class="input" name="title">
+        <input type="text" placeholder="Actor" formControlName="actor" class="input" name="actor">
+        <input type="text" placeholder="Director" formControlName="director" class="input" name="director">
+        <input type="text" placeholder="Writer" formControlName="writer" class="input" name="writer">
+        <input type="text" placeholder="Genre" formControlName="genre" class="input" name="genre">
+        <input type="number" placeholder="Min Price" formControlName="minPrice" class="input" name="minPrice">
+        <input type="number" placeholder="Max Price" formControlName="maxPrice" class="input" name="maxPrice">
+        <button type="submit" class="btn btn-primary">Apply Filters</button>
+        <button type="button" class="btn btn-secondary" (click)="resetFilters()">Reset Filters</button>
+      </div>
+    </form>
+    <div class="overflow-x-auto">
       <table class="table">
-          <thead>
-              <tr>
-                  <th>#</th>
-                  <th>Title</th>
-                  <th>Released</th>
-                  <th>Awards</th>
-                  <th>Price</th>
-                  <th>Action</th>
-              </tr>
-          </thead>
-          <tbody>
-              <tr *ngFor="let movie of movies">
-                  <th>{{movie.id}}</th>
-                  <td>{{movie.movieTitle}}</td>
-                  <td>{{movie.released}}</td>
-                  <td>{{movie.awards}}</td>
-                  <td>{{movie.price | currency}}</td>
-                  <td>
-                      <button class="btn mr-5" routerLink="/admin/movies/{{movie.id}}">Detail</button>
-                      <button class="btn mr-5" routerLink="/admin/movies/edit/{{movie.id}}">Edit</button>
-                      <button class="btn mr-5" (click)="onDelete(movie.id)">Delete</button>
-                  </td>
-              </tr>
-          </tbody>
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Title</th>
+            <th>Released</th>
+            <th>Awards</th>
+            <th>Price</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let movie of movies">
+            <th>{{movie.id}}</th>
+            <td>{{movie.movieTitle}}</td>
+            <td>{{movie.released}}</td>
+            <td>{{movie.awards}}</td>
+            <td>{{movie.price | currency}}</td>
+            <td>
+              <button class="btn mr-2" routerLink="/admin/movies/{{movie.id}}">Detail</button>
+              <button class="btn mr-2" routerLink="/admin/movies/update/{{movie.id}}">Edit</button>
+              <button class="btn mr-2" (click)="onDelete(movie.id)">Delete</button>
+            </td>
+          </tr>
+        </tbody>
       </table>
       <app-pagination *ngIf="pageInfo" [pageInfo]="pageInfo"></app-pagination>
+    </div>
   </div>
-</div>
+  
